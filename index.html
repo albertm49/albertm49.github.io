@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Albert Mora · Software Developer</title>
+  <meta name="description" content="Portfolio d'Albert Mora Costillo — software developer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="landing.css" />
+  <link rel="stylesheet" href="terminal.css" />
+</head>
+<body>
+  <main class="snap">
+    <!-- ===== Pantalla 1: Hi ===== -->
+    <section class="pane" id="s-hi">
+      <h1 class="big anim">Hi.</h1>
+      <a href="#s-me" class="scroll-hint" aria-label="Baixa">
+        <span>scroll</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Pantalla 2: I'm Albert Mora ===== -->
+    <section class="pane" id="s-me">
+      <div class="intro__me anim">
+        <img class="avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" />
+        <div class="me__text">
+          <h2 class="big">I'm Albert Mora.</h2>
+          <p class="role">Junior Software Developer</p>
+        </div>
+      </div>
+      <a href="#s-age" class="scroll-hint" aria-label="Baixa">
+        <span>scroll</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Pantalla 3: edat ===== -->
+    <section class="pane" id="s-age">
+      <!-- ✏️ Canvia l'edat si no és correcta -->
+      <h2 class="big anim">I'm 24 years old.</h2>
+      <a href="#s-passion" class="scroll-hint" aria-label="Baixa">
+        <span>scroll</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Pantalla 4: passió ===== -->
+    <section class="pane" id="s-passion">
+      <h2 class="big big--sub anim">...and I love building software.</h2>
+      <a href="#s-more" class="scroll-hint" aria-label="Baixa">
+        <span>keep scrolling</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Pantalla 5: vols saber-ne més? ===== -->
+    <section class="pane" id="s-more">
+      <h2 class="big big--sub anim">Do you want to know more about me?</h2>
+      <a href="#s-keep" class="scroll-hint" aria-label="Baixa">
+        <span>keep scrolling</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Pantalla 6: keep scrolling ===== -->
+    <section class="pane" id="s-keep">
+      <h2 class="big anim">Keep scrolling...</h2>
+      <a href="#s3" class="scroll-hint" aria-label="Baixa al portfolio">
+        <span>almost there</span>
+        <span class="chevron">⌄</span>
+      </a>
+    </section>
+
+    <!-- ===== Escriptori Linux amb la terminal a sobre ===== -->
+    <section class="terminal-section desktop" id="s3">
+      <!-- Barra superior estil GNOME -->
+      <div class="panel">
+        <span class="panel__item">Activities</span>
+        <span class="panel__clock" id="clock">--:--</span>
+        <span class="panel__item">albert@portfolio</span>
+      </div>
+
+      <!-- Icones d'aplicacions a l'escriptori -->
+      <div class="desktop-icons">
+        <a class="dicon" href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener">
+          <span class="dicon__img dicon__img--linkedin">in</span>
+          <span class="dicon__label">LinkedIn</span>
+        </a>
+        <a class="dicon" href="https://github.com/albertm49" target="_blank" rel="noopener">
+          <span class="dicon__img dicon__img--github">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          </span>
+          <span class="dicon__label">GitHub</span>
+        </a>
+        <a class="dicon" href="mailto:albert.moracostillo@gmail.com">
+          <span class="dicon__img dicon__img--mail">✉</span>
+          <span class="dicon__label">Email</span>
+        </a>
+        <button class="dicon" id="photoIcon" type="button">
+          <span class="dicon__img dicon__img--photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </span>
+          <span class="dicon__label">Photo</span>
+        </button>
+        <button class="dicon" id="cvIcon" type="button">
+          <span class="dicon__img dicon__img--cv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+          <span class="dicon__label">Download CV</span>
+        </button>
+      </div>
+
+      <!-- Finestra de la terminal -->
+      <div class="terminal" id="terminal">
+        <div class="terminal__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--yellow"></span>
+          <span class="dot dot--green"></span>
+          <span class="terminal__title">albert@portfolio: ~</span>
+        </div>
+
+        <div class="terminal__body" id="output"></div>
+
+        <div class="terminal__input-line" id="inputLine">
+          <span class="prompt"><span class="prompt__user">visitant@albert</span>:<span class="prompt__path">~</span>$&nbsp;</span>
+          <input
+            type="text"
+            id="cmdInput"
+            class="terminal__input"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            aria-label="Línia de comandes"
+          />
+        </div>
+      </div>
+
+      <!-- Pantalla d'arrencada del sistema (es mostra un cop, abans de l'escriptori) -->
+      <div class="bootscreen" id="bootscreen">
+        <div class="bootscreen__inner">
+          <p class="bootscreen__title">albert-os <span class="muted">v1.0</span></p>
+          <div class="bootscreen__log" id="bootLog"></div>
+          <div class="bootscreen__bar"><span id="bootBar"></span></div>
+        </div>
+      </div>
+
+      <!-- Popup amb la foto -->
+      <div class="modal" id="photoModal" aria-hidden="true">
+        <div class="modal__backdrop" data-close></div>
+        <div class="modal__window" role="dialog" aria-label="Foto d'Albert Mora">
+          <div class="modal__bar">
+            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <span class="dot dot--yellow"></span>
+            <span class="dot dot--green"></span>
+            <span class="modal__title">AlbertImage.jpg</span>
+          </div>
+          <img src="assets/AlbertImage.jpg" alt="Albert Mora" class="modal__img" />
+        </div>
+      </div>
+
+      <!-- Popup per triar l'idioma del CV -->
+      <div class="modal" id="cvModal" aria-hidden="true">
+        <div class="modal__backdrop" data-close></div>
+        <div class="modal__window modal__window--cv" role="dialog" aria-label="Descarregar CV">
+          <div class="modal__bar">
+            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <span class="dot dot--yellow"></span>
+            <span class="dot dot--green"></span>
+            <span class="modal__title">Download CV</span>
+          </div>
+          <div class="cv-options">
+            <p class="cv-options__title">Choose a language</p>
+            <a class="cv-btn" href="assets/CvAlbertMoraEng.pdf" download>
+              <span class="cv-btn__lang">EN</span> English
+            </a>
+            <a class="cv-btn" href="assets/AlbertMoraCvEsp.pdf" download>
+              <span class="cv-btn__lang">ES</span> Español
+            </a>
+            <a class="cv-btn" href="assets/AlbertMoraCvCat.pdf" download>
+              <span class="cv-btn__lang">CAT</span> Català
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="terminal.js"></script>
+</body>
+</html>

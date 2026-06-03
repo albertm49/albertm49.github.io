@@ -1,0 +1,391 @@
+/* ===== Tema terminal ===== */
+:root {
+  --bg: #0b0e14;
+  --terminal-bg: #0d1117;
+  --bar: #161b22;
+  --text: #c9d1d9;
+  --green: #3fb950;
+  --cyan: #56d4dd;
+  --yellow: #e3b341;
+  --purple: #bc8cff;
+  --red: #ff7b72;
+  --blue: #58a6ff;
+  --muted: #6e7681;
+}
+
+/* Secció que conté la terminal (l'escriptori Linux) */
+.terminal-section {
+  position: relative;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  font-family: "JetBrains Mono", ui-monospace, "Courier New", monospace;
+  font-size: 15px;
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ===== Fons d'escriptori estil Linux (blau GNOME/Adwaita) ===== */
+.desktop {
+  background:
+    radial-gradient(circle at 20% 25%, rgba(56, 139, 173, 0.45), transparent 48%),
+    radial-gradient(circle at 80% 80%, rgba(28, 78, 120, 0.5), transparent 48%),
+    linear-gradient(135deg, #16222a 0%, #1c3a4f 50%, #0f2027 100%);
+}
+
+/* Barra superior (panel) */
+.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  color: #e8e8f0;
+  z-index: 10;
+}
+
+.panel__clock { font-weight: 700; letter-spacing: 0.5px; }
+.panel__item { opacity: 0.85; }
+
+/* Icones d'escriptori */
+.desktop-icons {
+  position: absolute;
+  top: 56px;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  z-index: 5;
+}
+
+.dicon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 84px;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  font-family: "Inter", system-ui, sans-serif;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dicon:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.25); }
+
+.dicon__img {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  background-size: cover;
+  background-position: center;
+}
+
+.dicon__img--linkedin { background: #0a66c2; color: #fff; font-family: "Inter", sans-serif; }
+.dicon__img--github { background: #24292f; color: #fff; }
+.dicon__img--mail { background: linear-gradient(135deg, #ea4335, #c5221f); color: #fff; }
+.dicon__img--photo { background: linear-gradient(135deg, #4b6cb7, #182848); color: #fff; }
+.dicon__img--cv { background: linear-gradient(135deg, #2ea043, #1a7431); color: #fff; }
+
+.dicon__img svg { width: 30px; height: 30px; }
+
+.dicon__label {
+  font-size: 0.78rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+/* ===== Pantalla d'arrencada (boot) ===== */
+.bootscreen {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem clamp(1.2rem, 7vw, 7rem);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  color: var(--text);
+  transition: opacity 0.6s ease;
+}
+
+.bootscreen.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bootscreen__title {
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 1.4rem;
+}
+
+.bootscreen__log {
+  font-size: clamp(0.78rem, 1.6vw, 1rem);
+  line-height: 1.8;
+  min-height: 9em;
+}
+
+.boot-ok { color: var(--green); }
+.boot-wait { color: var(--yellow); }
+
+.bootscreen__bar {
+  margin-top: 1.6rem;
+  height: 6px;
+  width: min(440px, 80%);
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bootscreen__bar > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  transition: width 0.25s ease;
+}
+
+/* ===== Popup de la foto ===== */
+.modal {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open { display: flex; }
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.modal__window {
+  position: relative;
+  background: var(--terminal-bg);
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  max-width: min(520px, 90vw);
+  animation: popIn 0.25s ease;
+}
+
+.modal__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 0.9rem;
+  background: var(--bar);
+}
+
+.modal__bar .dot { border: none; padding: 0; }
+.modal__bar button.dot { cursor: pointer; }
+.modal__title { flex: 1; text-align: center; color: var(--muted); font-size: 0.8rem; margin-right: 40px; }
+
+.modal__img { display: block; width: 100%; height: auto; }
+
+/* Opcions d'idioma del CV */
+.modal__window--cv { max-width: min(360px, 90vw); }
+
+.cv-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.4rem;
+}
+
+.cv-options__title {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+.cv-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  background: var(--bar);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.cv-btn:hover {
+  background: #1f2630;
+  border-color: var(--green);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.cv-btn__lang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  background: var(--green);
+  color: #0d1117;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+  .desktop-icons { top: 46px; left: 10px; gap: 1rem; }
+  .dicon { width: 72px; }
+}
+
+/* ===== Finestra terminal ===== */
+.terminal {
+  width: min(1180px, 100%);
+  height: min(820px, 94vh);
+  background: var(--terminal-bg);
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.terminal__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.7rem 1rem;
+  background: var(--bar);
+  border-bottom: 1px solid #21262d;
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot--red { background: #ff5f56; }
+.dot--yellow { background: #ffbd2e; }
+.dot--green { background: #27c93f; }
+
+.terminal__title {
+  flex: 1;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-right: 54px;
+}
+
+/* ===== Cos ===== */
+.terminal__body {
+  flex: 1;
+  padding: 1rem 1.2rem;
+  overflow-y: auto;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal__body::-webkit-scrollbar { width: 10px; }
+.terminal__body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; }
+
+.line { margin-bottom: 2px; }
+
+/* ===== Colors de sortida ===== */
+.green { color: var(--green); }
+.cyan { color: var(--cyan); }
+.yellow { color: var(--yellow); }
+.purple { color: var(--purple); }
+.red { color: var(--red); }
+.blue { color: var(--blue); }
+.muted { color: var(--muted); }
+.bold { font-weight: 700; }
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.cmd-echo .prompt { opacity: 0.9; }
+
+/* ===== Prompt i input ===== */
+.prompt { white-space: nowrap; }
+.prompt__user { color: var(--green); font-weight: 700; }
+.prompt__path { color: var(--blue); font-weight: 700; }
+
+.terminal__input-line {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 1.2rem 1rem;
+}
+
+.terminal__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: var(--green);
+  margin-left: 2px;
+}
+
+/* ===== ASCII art ===== */
+.ascii {
+  color: var(--cyan);
+  font-size: clamp(7px, 1.6vw, 12px);
+  line-height: 1.2;
+  white-space: pre;
+}
+
+/* ===== Cursor parpellejant (al boot) ===== */
+.cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1.05em;
+  background: var(--green);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (max-width: 600px) {
+  .terminal-section { padding: 0; }
+  .terminal { height: 100vh; border-radius: 0; border: none; }
+  .terminal__title { margin-right: 0; display: none; }
+}
