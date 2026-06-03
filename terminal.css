@@ -271,11 +271,6 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 600px) {
-  .desktop-icons { top: 46px; left: 10px; gap: 1rem; }
-  .dicon { width: 72px; }
-}
-
 /* ===== Finestra terminal ===== */
 .terminal {
   width: min(1180px, 100%);
@@ -384,8 +379,21 @@ a:hover { text-decoration: underline; }
 
 @keyframes blink { 50% { opacity: 0; } }
 
+/* ===== Evitar que la terminal quedi sota les icones =====
+   Les icones són a l'esquerra (posició absoluta). Quan no hi ha prou marge,
+   reservem un "passadís" a l'esquerra de la terminal perquè no s'hi solapin. */
+@media (max-width: 1400px) {
+  .terminal-section.desktop { padding-left: 132px; }
+}
+
 @media (max-width: 600px) {
-  .terminal-section { padding: 0; }
-  .terminal { height: 100vh; border-radius: 0; border: none; }
+  .terminal-section.desktop { padding: 1rem 0.8rem 0.8rem 78px; }
+  .terminal { height: 92vh; border-radius: 10px; }
   .terminal__title { margin-right: 0; display: none; }
+
+  .desktop-icons { top: 46px; left: 8px; gap: 0.9rem; }
+  .dicon { width: 64px; padding: 0.35rem; }
+  .dicon__img { width: 42px; height: 42px; font-size: 1.2rem; }
+  .dicon__img svg { width: 24px; height: 24px; }
+  .dicon__label { font-size: 0.68rem; }
 }
