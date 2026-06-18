@@ -13,12 +13,22 @@
   --muted: #6e7681;
 }
 
+/* ===== Overlay del "Terminal mode" ===== */
+.terminal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+}
+.terminal-overlay.open { display: block; animation: overlayIn 0.25s ease; }
+
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* Secció que conté la terminal (l'escriptori Linux) */
 .terminal-section {
   position: relative;
   height: 100vh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +38,20 @@
   color: var(--text);
   overflow: hidden;
 }
+
+/* Botó de sortida del mode terminal (a la barra superior) */
+.panel__exit {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  padding: 0.22rem 0.65rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.panel__exit:hover { background: rgba(255, 90, 90, 0.4); border-color: rgba(255, 120, 120, 0.7); }
 
 /* ===== Fons d'escriptori estil Linux (blau GNOME/Adwaita) ===== */
 .desktop {

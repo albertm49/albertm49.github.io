@@ -1,1 +1,6 @@
 .DS_Store
+
+# impeccable (context intern, no contingut del site)
+PRODUCT.md
+DESIGN.md
+.impeccable/

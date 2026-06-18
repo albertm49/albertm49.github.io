@@ -63,6 +63,55 @@ const DATA = {
     "Computer Engineering — Management & Information Systems (4th year)",
     "Higher Technician in Multiplatform Application Development (DAM)",
   ],
+
+  // Frases que van rotant a l'enunciat del hero
+  taglines: ["web apps.", "mobile apps.", "clean architectures.", "real products."],
+
+  // Projectes (font única: alimenten la landing i la finestra del terminal).
+  projects: [
+    {
+      name: "AZA",
+      tagline: "Full-stack platform",
+      desc: "Plataforma full-stack on vaig treballar el cicle complet del producte i l'arquitectura al núvol (AWS) en un entorn Agile/Scrum.",
+      tags: ["Angular", "TypeScript", "C#", ".NET", "PostgreSQL", "AWS"],
+      url: "https://aza.family/",
+      badge: "Live",
+      logo: "assets/Logo.png",
+      accent: "aza",
+    },
+    {
+      name: "SoftDevArts",
+      tagline: "Software studio",
+      desc: "Estudi de desenvolupament de software a mida: web, aplicacions i solucions digitals per a clients.",
+      tags: ["Web", "Software", "Consultoria"],
+      url: "https://www.softdevarts.com/",
+      badge: "Live",
+      logo: "assets/logo_softdevarts.svg",
+      accent: "softdev",
+    },
+    {
+      name: "OwlInstitute",
+      tagline: "Psychology app",
+      desc: "El meu primer projecte real: una app de psicologia per a l'empresa OwlInstitute, desenvolupada amb Flutter i Firebase. Va cobrir el flux entre pacients i professionals de principi a fi.",
+      tags: ["Flutter", "Dart", "Firebase"],
+      url: "",
+      badge: "Mobile app",
+      linkLabel: "Built for OwlInstitute",
+      logo: "assets/naranja_owl_footer.png",
+      accent: "owl",
+    },
+    {
+      name: "Ekoora",
+      tagline: "In progress",
+      desc: "Projecte en desenvolupament. Captures i detalls disponibles aviat.",
+      tags: ["In progress"],
+      url: "",
+      badge: "Coming soon",
+      linkLabel: "Details coming soon",
+      logo: "assets/logo_ekoora.png",
+      accent: "ekoora",
+    },
+  ],
 };
 
 const ASCII = String.raw`
@@ -364,43 +413,7 @@ async function typeText(el, text, speed = 55) {
   el.classList.remove("typing");
 }
 
-async function heroIntro() {
-  const l1 = document.getElementById("heroType1");
-  const l2 = document.getElementById("heroType2");
-  const cta = document.getElementById("enterTerminal");
-  if (!l1 || !l2 || !cta) return;
-
-  const reduceMotion =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reduceMotion) {
-    l1.textContent = "Hi. I'm Albert Mora.";
-    l2.textContent = "I build software.";
-    cta.classList.add("show");
-    return;
-  }
-
-  await sleep(450);
-  await typeText(l1, "Hi. I'm Albert Mora.");
-  await sleep(280);
-  await typeText(l2, "I build software.");
-  l2.classList.add("cursor-on"); // deixa un cursor parpellejant a la línia final
-  await sleep(220);
-  cta.classList.add("show");
-}
-
-heroIntro();
-
-// El botó "Enter terminal" llisca fins a l'escriptori (i activa el boot)
-const enterTerminalBtn = document.getElementById("enterTerminal");
-if (enterTerminalBtn) {
-  enterTerminalBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    goTo(1);
-  });
-}
-
-// ---------- Aparició suau del contingut de cada pantalla ----------
+// ---------- Aparició suau del contingut en fer scroll (reutilitzat per la landing) ----------
 if ("IntersectionObserver" in window) {
   const animObs = new IntersectionObserver(
     (entries) => {
@@ -413,71 +426,6 @@ if ("IntersectionObserver" in window) {
   document.querySelectorAll(".anim").forEach((el) => animObs.observe(el));
 } else {
   document.querySelectorAll(".anim").forEach((el) => el.classList.add("in"));
-}
-
-// ---------- Navegació pantalla a pantalla (un gest = una pantalla) ----------
-// Controla el scroll de roda/trackpad perquè s'aturi sempre a cada pantalla
-// i no se'n salti cap per inèrcia.
-const snapEl = document.querySelector(".snap");
-const sections = Array.from(document.querySelectorAll(".snap > section"));
-let current = 0;
-let isAnimating = false;
-let animTimer = null;
-
-function goTo(index) {
-  index = Math.max(0, Math.min(sections.length - 1, index));
-  current = index;
-  isAnimating = true;
-  snapEl.scrollTo({ top: index * window.innerHeight, behavior: "smooth" });
-  clearTimeout(animTimer);
-  animTimer = setTimeout(() => (isAnimating = false), 800);
-}
-
-if (snapEl && sections.length) {
-  // Mantén "current" sincronitzat si l'usuari arriba per altres mitjans (tàctil, enllaços)
-  snapEl.addEventListener("scroll", () => {
-    if (!isAnimating) current = Math.round(snapEl.scrollTop / window.innerHeight);
-  });
-
-  // Roda / trackpad
-  snapEl.addEventListener(
-    "wheel",
-    (e) => {
-      const lastIndex = sections.length - 1;
-
-      // A la terminal: deixa el scroll natural dins la finestra,
-      // però si fas scroll amunt i ja ets a dalt, torna a la pantalla anterior.
-      if (current >= lastIndex) {
-        if (e.deltaY < 0) {
-          const body = document.getElementById("output");
-          if (!body || body.scrollTop <= 0) {
-            e.preventDefault();
-            goTo(current - 1);
-          }
-        }
-        return;
-      }
-
-      // A les pantalles d'intro: un gest mou exactament una pantalla
-      e.preventDefault();
-      if (isAnimating) return;
-      if (e.deltaY > 20) goTo(current + 1);
-      else if (e.deltaY < -20) goTo(current - 1);
-    },
-    { passive: false }
-  );
-
-  // Teclat (fletxes, espai, Re Pàg/Av Pàg) quan no escrius a la terminal
-  document.addEventListener("keydown", (e) => {
-    if (document.activeElement === document.getElementById("cmdInput")) return;
-    if (["ArrowDown", "PageDown", " "].includes(e.key)) {
-      e.preventDefault();
-      goTo(current + 1);
-    } else if (["ArrowUp", "PageUp"].includes(e.key)) {
-      e.preventDefault();
-      goTo(current - 1);
-    }
-  });
 }
 
 // ---------- Rellotge del panel (estil escriptori) ----------
@@ -522,24 +470,14 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeAllModals();
 });
 
-// Arrenca la terminal només quan la secció entra a la vista (un sol cop)
+// Arrenca la terminal un sol cop, quan s'obre el "Terminal mode" (cridat des de site.js)
 let booted = false;
-const section = document.querySelector(".terminal-section");
-
-if (section && "IntersectionObserver" in window) {
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !booted) {
-          booted = true;
-          boot();
-          obs.disconnect();
-        }
-      });
-    },
-    { threshold: 0.4 }
-  );
-  obs.observe(section);
-} else {
+function ensureTerminalBooted() {
+  if (booted) return;
+  booted = true;
   boot();
 }
+// Exposa dades i funcions per a site.js (landing)
+window.DATA = DATA;
+window.ensureTerminalBooted = ensureTerminalBooted;
+window.terminalFocusInput = () => input && input.focus();

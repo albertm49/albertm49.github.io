@@ -1,47 +1,138 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Albert Mora · Software Developer</title>
-  <meta name="description" content="Portfolio d'Albert Mora Costillo — software developer." />
+  <title>Albert Mora · Full-Stack Developer</title>
+  <meta name="description" content="Albert Mora Costillo — Full-Stack Developer & Computer Engineer based in Barcelona. Web & mobile apps with Angular, .NET, Flutter and more." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="landing.css" />
   <link rel="stylesheet" href="terminal.css" />
 </head>
-<body>
-  <main class="snap">
-    <!-- ===== Hero: intro estil terminal amb efecte màquina d'escriure ===== -->
-    <section class="pane pane--hero" id="s-hero">
-      <div class="hero">
-        <img class="hero__avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" />
+<body id="top">
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <a class="nav__brand" href="#top">albert<span>.dev</span></a>
+    <nav class="nav__links">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <button class="nav__terminal js-open-terminal" type="button">
+        <span aria-hidden="true">⌨</span> Terminal mode
+      </button>
+    </nav>
+  </header>
 
-        <div class="hero__lines">
-          <p class="hero__line">
-            <span class="hero__prompt">&gt;</span>
-            <span id="heroType1"></span>
-          </p>
-          <p class="hero__line">
-            <span class="hero__prompt">&gt;</span>
-            <span id="heroType2"></span>
-          </p>
-        </div>
-
-        <a href="#s3" class="hero__cta" id="enterTerminal">
-          Enter terminal <span aria-hidden="true">→</span>
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <img class="hero__avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" />
+      <p class="hero__eyebrow">Full-Stack Developer · Computer Engineer</p>
+      <h1 class="hero__title">
+        Hi, I'm Albert.<br />
+        I build <span class="hero__typed" id="heroTyped"></span><span class="hero__caret" aria-hidden="true"></span>
+      </h1>
+      <p class="hero__sub">
+        Junior who ships like it matters — real products for real clients, built fast and under Agile.
+      </p>
+      <div class="hero__cta">
+        <a href="#projects" class="btn btn--primary">View projects</a>
+        <a href="assets/CvAlbertMoraEng.pdf" class="btn" download>Download CV</a>
+        <button class="btn btn--ghost js-open-terminal" type="button">
+          <span aria-hidden="true">⌨</span> Terminal mode
+        </button>
+      </div>
+      <div class="hero__socials">
+        <a href="https://github.com/albertm49" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.25 8.25h4.5V23H.25V8.25zM8.5 8.25h4.31v2.02h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.36c0-1.52-.03-3.48-2.12-3.48-2.12 0-2.45 1.66-2.45 3.37V23H8.5V8.25z"/></svg>
+        </a>
+        <a href="mailto:albert.moracostillo@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
         </a>
       </div>
     </section>
 
-    <!-- ===== Escriptori Linux amb la terminal a sobre ===== -->
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section anim" id="about">
+      <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title">About</h2>
+      </div>
+      <div class="about" id="aboutText"><!-- injectat per site.js --></div>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section class="section anim" id="projects">
+      <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title">Projects</h2>
+      </div>
+      <div class="proj-grid" id="projGrid"><!-- injectat per site.js --></div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section class="section anim" id="experience">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title">Experience</h2>
+      </div>
+      <div class="timeline" id="timeline"><!-- injectat per site.js --></div>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section class="section anim" id="skills">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title">Skills</h2>
+      </div>
+      <div class="skills" id="skillsList"><!-- injectat per site.js --></div>
+      <div class="edu" id="eduList"><!-- injectat per site.js --></div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section anim" id="contact">
+      <div class="section__head">
+        <span class="section__num">05</span>
+        <h2 class="section__title">Get in touch</h2>
+      </div>
+      <p class="contact__lead">
+        Open to junior full-stack / frontend roles. Let's build something together.
+      </p>
+      <div class="contact__actions">
+        <a class="btn btn--primary" href="mailto:albert.moracostillo@gmail.com">Email me</a>
+        <a class="btn" href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/albertm49" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="contact__cv">
+        Download CV:
+        <a href="assets/CvAlbertMoraEng.pdf" download>EN</a> ·
+        <a href="assets/AlbertMoraCvEsp.pdf" download>ES</a> ·
+        <a href="assets/AlbertMoraCvCat.pdf" download>CAT</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© Albert Mora Costillo</span>
+    <button class="footer__terminal js-open-terminal" type="button">
+      <span aria-hidden="true">⌨</span> psst… try terminal mode
+    </button>
+  </footer>
+
+  <!-- ===================== TERMINAL OVERLAY (mode opcional) ===================== -->
+  <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true">
     <section class="terminal-section desktop" id="s3">
       <!-- Barra superior estil GNOME -->
       <div class="panel">
         <span class="panel__item">Activities</span>
         <span class="panel__clock" id="clock">--:--</span>
-        <span class="panel__item">albert@portfolio</span>
+        <button class="panel__exit js-close-terminal" type="button">✕ Exit terminal</button>
       </div>
 
       <!-- Icones d'aplicacions a l'escriptori -->
@@ -110,12 +201,12 @@
             autocapitalize="off"
             autocorrect="off"
             spellcheck="false"
-            aria-label="Línia de comandes"
+            aria-label="Command line"
           />
         </div>
       </div>
 
-      <!-- Pantalla d'arrencada del sistema (es mostra un cop, abans de l'escriptori) -->
+      <!-- Pantalla d'arrencada del sistema -->
       <div class="bootscreen" id="bootscreen">
         <div class="bootscreen__inner">
           <p class="bootscreen__title">albert-os <span class="muted">v1.0</span></p>
@@ -127,9 +218,9 @@
       <!-- Popup amb la foto -->
       <div class="modal" id="photoModal" aria-hidden="true">
         <div class="modal__backdrop" data-close></div>
-        <div class="modal__window" role="dialog" aria-label="Foto d'Albert Mora">
+        <div class="modal__window" role="dialog" aria-label="Albert Mora photo">
           <div class="modal__bar">
-            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <button class="dot dot--red" data-close aria-label="Close"></button>
             <span class="dot dot--yellow"></span>
             <span class="dot dot--green"></span>
             <span class="modal__title">AlbertImage.jpg</span>
@@ -141,9 +232,9 @@
       <!-- Popup per triar l'idioma del CV -->
       <div class="modal" id="cvModal" aria-hidden="true">
         <div class="modal__backdrop" data-close></div>
-        <div class="modal__window modal__window--cv" role="dialog" aria-label="Descarregar CV">
+        <div class="modal__window modal__window--cv" role="dialog" aria-label="Download CV">
           <div class="modal__bar">
-            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <button class="dot dot--red" data-close aria-label="Close"></button>
             <span class="dot dot--yellow"></span>
             <span class="dot dot--green"></span>
             <span class="modal__title">Download CV</span>
@@ -163,65 +254,23 @@
         </div>
       </div>
 
-      <!-- Finestra de Projects (targetes estil YouTube) -->
+      <!-- Finestra de Projects -->
       <div class="modal" id="projectsModal" aria-hidden="true">
         <div class="modal__backdrop" data-close></div>
         <div class="modal__window modal__window--projects" role="dialog" aria-label="Projects">
           <div class="modal__bar">
-            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <button class="dot dot--red" data-close aria-label="Close"></button>
             <span class="dot dot--yellow"></span>
             <span class="dot dot--green"></span>
             <span class="modal__title">~/projects</span>
           </div>
-
-          <div class="projects-grid">
-            <!-- Per posar una portada real: afegeix la imatge a assets/projects/
-                 i canvia  class="pcard__thumb pcard__thumb--aza"  per
-                 style="background-image:url('assets/projects/aza.jpg')" -->
-
-            <a class="pcard" href="https://aza.family/" target="_blank" rel="noopener">
-              <div class="pcard__thumb pcard__thumb--aza">
-                <span class="pcard__cover-name">aza</span>
-                <span class="pcard__badge">Live · Web</span>
-              </div>
-              <div class="pcard__body">
-                <h3 class="pcard__title">AZA</h3>
-                <p class="pcard__desc">Plataforma full-stack on vaig treballar el cicle complet del producte i l'arquitectura al núvol (AWS) en un entorn Agile.</p>
-                <span class="pcard__tags">Angular · TypeScript · C# · PostgreSQL · AWS</span>
-              </div>
-            </a>
-
-            <a class="pcard" href="https://www.softdevarts.com/" target="_blank" rel="noopener">
-              <div class="pcard__thumb pcard__thumb--softdev">
-                <span class="pcard__cover-name">softdevarts</span>
-                <span class="pcard__badge">Live · Web</span>
-              </div>
-              <div class="pcard__body">
-                <h3 class="pcard__title">SoftDevArts</h3>
-                <p class="pcard__desc">Estudi de desenvolupament de software a mida: web, aplicacions i solucions digitals per a clients.</p>
-                <span class="pcard__tags">Web · Software · Consultoria</span>
-              </div>
-            </a>
-
-            <!-- Ekoora: encara no té web. Quan tinguis la captura, afegeix-la a
-                 assets/projects/ekoora.jpg i posa-la com a background del thumb. -->
-            <div class="pcard pcard--soon">
-              <div class="pcard__thumb pcard__thumb--ekoora">
-                <span class="pcard__cover-name">Ekoora</span>
-                <span class="pcard__badge">Coming soon</span>
-              </div>
-              <div class="pcard__body">
-                <h3 class="pcard__title">Ekoora</h3>
-                <p class="pcard__desc">Projecte en desenvolupament. Captures i detalls disponibles aviat.</p>
-                <span class="pcard__tags">In progress</span>
-              </div>
-            </div>
-          </div>
+          <div class="projects-grid" id="projectsGrid"><!-- injectat per site.js --></div>
         </div>
       </div>
     </section>
-  </main>
+  </div>
 
   <script src="terminal.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>
