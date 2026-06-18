@@ -1,118 +1,12 @@
 // =====================================================================
-//  Portfolio en mode terminal — Albert Mora Costillo
+//  Portfolio en mode terminal - Albert Mora Costillo
 //  Edita l'objecte DATA per actualitzar el contingut. El motor és a sota.
 // =====================================================================
 
-const DATA = {
-  name: "Albert Mora Costillo",
-  role: "Full-Stack Developer · Computer Engineer",
-  location: "Barcelona / Arenys de Mar",
-  studies: "Computer Engineering — 4th year",
-  email: "albert.moracostillo@gmail.com",
-  github: "https://github.com/albertm49",
-  linkedin: "https://linkedin.com/in/albert-mora-costillo-219301226",
-
-  about: [
-    "Full-stack developer with a solid academic foundation and hands-on experience across the full lifecycle of web and mobile applications.",
-    "Fast learner: proven ability to pick up new technologies in record time and ship working products for real clients.",
-    "Focused on process optimization through automation and delivering under Agile/Scrum methodologies.",
-    "Keen interest in applied AI and clean architectures (DDD, Event Sourcing).",
-  ],
-
-  stack: {
-    "Languages": ["JavaScript", "TypeScript", "C#", "Java", "PHP", "SQL", "Bash"],
-    "Web / Mobile": ["Angular", "HTML5", "CSS3", "Flutter"],
-    "Backend / Data": [".NET", "REST API", "PostgreSQL", "MongoDB", "MySQL"],
-    "Tools / Cloud": ["Git / GitHub", "Docker", "Postman", "AWS (Cognito, S3)"],
-  },
-
-  experience: [
-    {
-      role: "Full-Stack Developer",
-      company: "AZA",
-      time: "University internship",
-      points: [
-        "Worked across the full SDLC under Agile/Scrum, improving sprint coordination and delivery.",
-        "Built key features with Angular, TypeScript, .NET and C#, ensuring quality through unit testing.",
-        "Managed complex versioning with Git, streamlining collaborative workflow in a professional setting.",
-        "Implemented and maintained PostgreSQL and Cloud (AWS) integrations for scalable solutions.",
-      ],
-    },
-    {
-      role: "Junior Consultant",
-      company: "Leviathan Creative Studios",
-      time: "Consultancy",
-      points: [
-        "Delivered critical projects for external clients, owning the technical work from learning phase to production.",
-        "Mastered new technologies under tight deadlines, shipping stable products that still retain recurring users today.",
-        "Integrated APIs and designed databases in Flutter, aligning business requirements with robust technical solutions.",
-      ],
-    },
-    {
-      role: "Systems Developer (Bash)",
-      company: "TwoNav",
-      time: "Degree internship",
-      points: [
-        "Built and optimized Bash scripts to automate map-app deployment on end devices, removing repetitive manual tasks and reducing errors.",
-        "Worked closely with the infrastructure team to optimize Linux-based workflows and operational efficiency.",
-      ],
-    },
-  ],
-
-  education: [
-    "Computer Engineering — Management & Information Systems (4th year)",
-    "Higher Technician in Multiplatform Application Development (DAM)",
-  ],
-
-  // Frases que van rotant a l'enunciat del hero
-  taglines: ["web apps.", "mobile apps.", "clean architectures.", "real products."],
-
-  // Projectes (font única: alimenten la landing i la finestra del terminal).
-  projects: [
-    {
-      name: "AZA",
-      tagline: "Full-stack platform",
-      desc: "Plataforma full-stack on vaig treballar el cicle complet del producte i l'arquitectura al núvol (AWS) en un entorn Agile/Scrum.",
-      tags: ["Angular", "TypeScript", "C#", ".NET", "PostgreSQL", "AWS"],
-      url: "https://aza.family/",
-      badge: "Live",
-      logo: "assets/Logo.png",
-      accent: "aza",
-    },
-    {
-      name: "SoftDevArts",
-      tagline: "Software studio",
-      desc: "Estudi de desenvolupament de software a mida: web, aplicacions i solucions digitals per a clients.",
-      tags: ["Web", "Software", "Consultoria"],
-      url: "https://www.softdevarts.com/",
-      badge: "Live",
-      logo: "assets/logo_softdevarts.svg",
-      accent: "softdev",
-    },
-    {
-      name: "OwlInstitute",
-      tagline: "Psychology app",
-      desc: "El meu primer projecte real: una app de psicologia per a l'empresa OwlInstitute, desenvolupada amb Flutter i Firebase. Va cobrir el flux entre pacients i professionals de principi a fi.",
-      tags: ["Flutter", "Dart", "Firebase"],
-      url: "",
-      badge: "Mobile app",
-      linkLabel: "Built for OwlInstitute",
-      logo: "assets/naranja_owl_footer.png",
-      accent: "owl",
-    },
-    {
-      name: "Ekoora",
-      tagline: "In progress",
-      desc: "Projecte en desenvolupament. Captures i detalls disponibles aviat.",
-      tags: ["In progress"],
-      url: "",
-      badge: "Coming soon",
-      linkLabel: "Details coming soon",
-      logo: "assets/logo_ekoora.png",
-      accent: "ekoora",
-    },
-  ],
-};
+// Dades: construïdes per i18n.js segons l'idioma actiu (font única de contingut).
+// Es reassigna en canviar d'idioma perquè la terminal també reflecteixi el canvi.
+let DATA = window.DATA;
+window.addEventListener("langchange", () => { DATA = window.DATA; });
 
 const ASCII = String.raw`
    ___    __ __              __
@@ -178,7 +72,7 @@ const COMMANDS = {
     // Capçalera estil neofetch: logo ASCII + taula de dades
     const rows = [
       ["Role", DATA.role],
-      ["Focus", "Frontend"],
+      ["Focus", "Backend · loves frontend"],
       ["Place", DATA.location],
       ["Study", DATA.studies],
       ["Email", DATA.email],
@@ -477,7 +371,6 @@ function ensureTerminalBooted() {
   booted = true;
   boot();
 }
-// Exposa dades i funcions per a site.js (landing)
-window.DATA = DATA;
+// Exposa funcions per a site.js (landing)
 window.ensureTerminalBooted = ensureTerminalBooted;
 window.terminalFocusInput = () => input && input.focus();
