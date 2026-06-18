@@ -102,6 +102,7 @@
   background-position: center;
 }
 
+.dicon__img--projects { background: linear-gradient(135deg, #f0b429, #de911d); color: #3b2a06; }
 .dicon__img--linkedin { background: #0a66c2; color: #fff; font-family: "Inter", sans-serif; }
 .dicon__img--github { background: #24292f; color: #fff; }
 .dicon__img--mail { background: linear-gradient(135deg, #ea4335, #c5221f); color: #fff; }
@@ -266,6 +267,107 @@
   letter-spacing: 0.5px;
 }
 
+/* ===== Finestra de Projects ===== */
+.modal__window--projects {
+  width: min(940px, 92vw);
+  max-width: none;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+  padding: 1.4rem;
+  overflow-y: auto;
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bar);
+  border: 1px solid #21262d;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.pcard:hover {
+  transform: translateY(-4px);
+  border-color: var(--blue);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Portada estil miniatura de YouTube (16:9) */
+.pcard__thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Portades de mostra amb degradat (substitueix per una imatge quan vulguis) */
+.pcard__thumb--aza     { background-image: linear-gradient(135deg, #4b6cb7, #182848); }
+.pcard__thumb--softdev { background-image: linear-gradient(135deg, #11998e, #1a3a5c); }
+.pcard__thumb--ekoora  { background-image: linear-gradient(135deg, #232526, #414345); }
+
+/* Nom del projecte sobre la portada (mentre no hi hagi imatge real) */
+.pcard__cover-name {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Targeta de projecte encara no disponible */
+.pcard--soon { cursor: default; opacity: 0.92; }
+.pcard--soon:hover { transform: none; border-color: #21262d; box-shadow: none; }
+.pcard--soon .pcard__badge { background: rgba(227, 179, 65, 0.85); color: #1a1300; }
+
+.pcard__badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 5px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.pcard__body { padding: 0.9rem 1rem 1.1rem; }
+
+.pcard__title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+.pcard__desc {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-bottom: 0.6rem;
+}
+
+.pcard__tags {
+  font-size: 0.72rem;
+  color: var(--blue);
+  font-family: "JetBrains Mono", monospace;
+}
+
 @keyframes popIn {
   from { opacity: 0; transform: scale(0.92); }
   to   { opacity: 1; transform: scale(1); }
@@ -366,6 +468,64 @@ a:hover { text-decoration: underline; }
   line-height: 1.2;
   white-space: pre;
 }
+
+/* ===== Sortida estil neofetch (about) ===== */
+.neofetch {
+  display: flex;
+  gap: 1.6rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 0.2rem 0 0.6rem;
+}
+
+.neofetch__logo {
+  margin: 0;
+  color: var(--cyan);
+  white-space: pre;
+  line-height: 1.18;
+  font-family: inherit;
+}
+
+.neofetch__info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.neofetch__name { color: var(--green); font-weight: 700; }
+.neofetch__rule { border-top: 1px solid #30363d; margin: 4px 0 6px; }
+
+.nf-row { display: flex; gap: 0.7rem; }
+.nf-key { color: var(--cyan); font-weight: 700; min-width: 5.5rem; flex-shrink: 0; }
+.nf-val { color: var(--text); word-break: break-word; }
+
+/* ===== Files clau-valor / skills (kv-row) ===== */
+.kv-row {
+  display: flex;
+  gap: 0.9rem;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.kv-row .nf-key { min-width: 8.5rem; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.chip {
+  display: inline-block;
+  padding: 1px 9px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #161b22;
+  color: #adbac7;
+  font-size: 0.85em;
+  line-height: 1.55;
+  white-space: nowrap;
+}
+
+/* ===== Experiència (arbre) ===== */
+.xp-head { margin-top: 0.7rem; }
+.xp-time { margin-left: 1.1rem; margin-bottom: 2px; }
+.xp-point { margin-left: 1.1rem; }
+.xp-point .muted { margin-right: 0.4rem; }
+
+.edu-row { margin-bottom: 3px; }
+.bullet .muted { margin-right: 0.3rem; }
 
 /* ===== Cursor parpellejant (al boot) ===== */
 .cursor {

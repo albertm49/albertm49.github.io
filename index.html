@@ -13,65 +13,26 @@
 </head>
 <body>
   <main class="snap">
-    <!-- ===== Pantalla 1: Hi ===== -->
-    <section class="pane" id="s-hi">
-      <h1 class="big anim">Hi.</h1>
-      <a href="#s-me" class="scroll-hint" aria-label="Baixa">
-        <span>scroll</span>
-        <span class="chevron">⌄</span>
-      </a>
-    </section>
+    <!-- ===== Hero: intro estil terminal amb efecte màquina d'escriure ===== -->
+    <section class="pane pane--hero" id="s-hero">
+      <div class="hero">
+        <img class="hero__avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" />
 
-    <!-- ===== Pantalla 2: I'm Albert Mora ===== -->
-    <section class="pane" id="s-me">
-      <div class="intro__me anim">
-        <img class="avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" />
-        <div class="me__text">
-          <h2 class="big">I'm Albert Mora.</h2>
-          <p class="role">Junior Software Developer</p>
+        <div class="hero__lines">
+          <p class="hero__line">
+            <span class="hero__prompt">&gt;</span>
+            <span id="heroType1"></span>
+          </p>
+          <p class="hero__line">
+            <span class="hero__prompt">&gt;</span>
+            <span id="heroType2"></span>
+          </p>
         </div>
+
+        <a href="#s3" class="hero__cta" id="enterTerminal">
+          Enter terminal <span aria-hidden="true">→</span>
+        </a>
       </div>
-      <a href="#s-age" class="scroll-hint" aria-label="Baixa">
-        <span>scroll</span>
-        <span class="chevron">⌄</span>
-      </a>
-    </section>
-
-    <!-- ===== Pantalla 3: edat ===== -->
-    <section class="pane" id="s-age">
-      <!-- ✏️ Canvia l'edat si no és correcta -->
-      <h2 class="big anim">I'm 24 years old.</h2>
-      <a href="#s-passion" class="scroll-hint" aria-label="Baixa">
-        <span>scroll</span>
-        <span class="chevron">⌄</span>
-      </a>
-    </section>
-
-    <!-- ===== Pantalla 4: passió ===== -->
-    <section class="pane" id="s-passion">
-      <h2 class="big big--sub anim">...and I love building software.</h2>
-      <a href="#s-more" class="scroll-hint" aria-label="Baixa">
-        <span>keep scrolling</span>
-        <span class="chevron">⌄</span>
-      </a>
-    </section>
-
-    <!-- ===== Pantalla 5: vols saber-ne més? ===== -->
-    <section class="pane" id="s-more">
-      <h2 class="big big--sub anim">Do you want to know more about me?</h2>
-      <a href="#s-keep" class="scroll-hint" aria-label="Baixa">
-        <span>keep scrolling</span>
-        <span class="chevron">⌄</span>
-      </a>
-    </section>
-
-    <!-- ===== Pantalla 6: keep scrolling ===== -->
-    <section class="pane" id="s-keep">
-      <h2 class="big anim">Keep scrolling...</h2>
-      <a href="#s3" class="scroll-hint" aria-label="Baixa al portfolio">
-        <span>almost there</span>
-        <span class="chevron">⌄</span>
-      </a>
     </section>
 
     <!-- ===== Escriptori Linux amb la terminal a sobre ===== -->
@@ -85,6 +46,14 @@
 
       <!-- Icones d'aplicacions a l'escriptori -->
       <div class="desktop-icons">
+        <button class="dicon" id="projectsIcon" type="button">
+          <span class="dicon__img dicon__img--projects">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
+          <span class="dicon__label">Projects</span>
+        </button>
         <a class="dicon" href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener">
           <span class="dicon__img dicon__img--linkedin">in</span>
           <span class="dicon__label">LinkedIn</span>
@@ -190,6 +159,63 @@
             <a class="cv-btn" href="assets/AlbertMoraCvCat.pdf" download>
               <span class="cv-btn__lang">CAT</span> Català
             </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Finestra de Projects (targetes estil YouTube) -->
+      <div class="modal" id="projectsModal" aria-hidden="true">
+        <div class="modal__backdrop" data-close></div>
+        <div class="modal__window modal__window--projects" role="dialog" aria-label="Projects">
+          <div class="modal__bar">
+            <button class="dot dot--red" data-close aria-label="Tancar"></button>
+            <span class="dot dot--yellow"></span>
+            <span class="dot dot--green"></span>
+            <span class="modal__title">~/projects</span>
+          </div>
+
+          <div class="projects-grid">
+            <!-- Per posar una portada real: afegeix la imatge a assets/projects/
+                 i canvia  class="pcard__thumb pcard__thumb--aza"  per
+                 style="background-image:url('assets/projects/aza.jpg')" -->
+
+            <a class="pcard" href="https://aza.family/" target="_blank" rel="noopener">
+              <div class="pcard__thumb pcard__thumb--aza">
+                <span class="pcard__cover-name">aza</span>
+                <span class="pcard__badge">Live · Web</span>
+              </div>
+              <div class="pcard__body">
+                <h3 class="pcard__title">AZA</h3>
+                <p class="pcard__desc">Plataforma full-stack on vaig treballar el cicle complet del producte i l'arquitectura al núvol (AWS) en un entorn Agile.</p>
+                <span class="pcard__tags">Angular · TypeScript · C# · PostgreSQL · AWS</span>
+              </div>
+            </a>
+
+            <a class="pcard" href="https://www.softdevarts.com/" target="_blank" rel="noopener">
+              <div class="pcard__thumb pcard__thumb--softdev">
+                <span class="pcard__cover-name">softdevarts</span>
+                <span class="pcard__badge">Live · Web</span>
+              </div>
+              <div class="pcard__body">
+                <h3 class="pcard__title">SoftDevArts</h3>
+                <p class="pcard__desc">Estudi de desenvolupament de software a mida: web, aplicacions i solucions digitals per a clients.</p>
+                <span class="pcard__tags">Web · Software · Consultoria</span>
+              </div>
+            </a>
+
+            <!-- Ekoora: encara no té web. Quan tinguis la captura, afegeix-la a
+                 assets/projects/ekoora.jpg i posa-la com a background del thumb. -->
+            <div class="pcard pcard--soon">
+              <div class="pcard__thumb pcard__thumb--ekoora">
+                <span class="pcard__cover-name">Ekoora</span>
+                <span class="pcard__badge">Coming soon</span>
+              </div>
+              <div class="pcard__body">
+                <h3 class="pcard__title">Ekoora</h3>
+                <p class="pcard__desc">Projecte en desenvolupament. Captures i detalls disponibles aviat.</p>
+                <span class="pcard__tags">In progress</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

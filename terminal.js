@@ -5,7 +5,7 @@
 
 const DATA = {
   name: "Albert Mora Costillo",
-  role: "Junior Full-Stack Developer (Frontend focus)",
+  role: "Full-Stack Developer · Computer Engineer",
   location: "Barcelona / Arenys de Mar",
   studies: "Computer Engineering — 4th year",
   email: "albert.moracostillo@gmail.com",
@@ -13,57 +13,54 @@ const DATA = {
   linkedin: "https://linkedin.com/in/albert-mora-costillo-219301226",
 
   about: [
-    "Junior Full-Stack Developer specializing in Frontend. Solid background in Multiplatform Application Development (DAM).",
-    "Versatile junior developer with a strong focus on frontend and expanding backend expertise.",
-    "Extensive experience in DAM, including 1 year of technical leadership in consulting, managing real-world projects for external clients.",
-    "Hands-on experience with the full development lifecycle of a mobile-first PWA (Full-stack Angular/TypeScript and .NET/C#).",
-    "Proficient in designing REST API endpoints, working with SQL databases (PostgreSQL), and integrating cloud services (AWS Cognito, S3).",
-    "Deep interest in applied Artificial Intelligence, including the supervised use of AI agents to learn advanced architectures",
-    "(DDD, Event Sourcing).",
+    "Full-stack developer with a solid academic foundation and hands-on experience across the full lifecycle of web and mobile applications.",
+    "Fast learner: proven ability to pick up new technologies in record time and ship working products for real clients.",
+    "Focused on process optimization through automation and delivering under Agile/Scrum methodologies.",
+    "Keen interest in applied AI and clean architectures (DDD, Event Sourcing).",
   ],
 
   stack: {
-    Languages: ["Java", "PHP", "C# (basic)", "JavaScript", "SQL", "REST API Development", "Bash"],
-    Databases: ["MySQL", "MongoDB (basic)", "PostgreSQL"],
-    Tools: ["Git / GitHub", "Fork", "Docker", "Postman"],
-    Mobile: ["Flutter", "Java"],
-    Web: ["HTML", "CSS"],
+    "Languages": ["JavaScript", "TypeScript", "C#", "Java", "PHP", "SQL", "Bash"],
+    "Web / Mobile": ["Angular", "HTML5", "CSS3", "Flutter"],
+    "Backend / Data": [".NET", "REST API", "PostgreSQL", "MongoDB", "MySQL"],
+    "Tools / Cloud": ["Git / GitHub", "Docker", "Postman", "AWS (Cognito, S3)"],
   },
 
   experience: [
     {
-      role: "Frontend Developer / Technical Lead",
-      company: "Leviathan Creative Studios",
-      time: "1 year · Consultancy",
-      points: [
-        "Worked on 3 projects for external companies (web & mobile apps).",
-        "Developed applications using Flutter.",
-        "Database design and API integration.",
-      ],
-    },
-    {
-      role: "Junior Bash Developer",
-      company: "TwoNav",
-      time: "6 months · Internship",
-      points: [
-        "Developed and maintained Bash scripts to automate sysadmin tasks.",
-        "Collaborated with the technical team to optimize Linux-based workflows.",
-      ],
-    },
-    {
       role: "Full-Stack Developer",
       company: "AZA",
-      time: "4 months · Internship",
+      time: "University internship",
       points: [
-        "Full-stack dev (Angular, HTML, CSS, TypeScript, C#, PostgreSQL) in an Agile environment.",
-        "Covered the full product lifecycle and cloud architecture (AWS).",
-        "Version control with GitHub, Agile methodologies, and optimization through AI.",
+        "Worked across the full SDLC under Agile/Scrum, improving sprint coordination and delivery.",
+        "Built key features with Angular, TypeScript, .NET and C#, ensuring quality through unit testing.",
+        "Managed complex versioning with Git, streamlining collaborative workflow in a professional setting.",
+        "Implemented and maintained PostgreSQL and Cloud (AWS) integrations for scalable solutions.",
+      ],
+    },
+    {
+      role: "Junior Consultant",
+      company: "Leviathan Creative Studios",
+      time: "Consultancy",
+      points: [
+        "Delivered critical projects for external clients, owning the technical work from learning phase to production.",
+        "Mastered new technologies under tight deadlines, shipping stable products that still retain recurring users today.",
+        "Integrated APIs and designed databases in Flutter, aligning business requirements with robust technical solutions.",
+      ],
+    },
+    {
+      role: "Systems Developer (Bash)",
+      company: "TwoNav",
+      time: "Degree internship",
+      points: [
+        "Built and optimized Bash scripts to automate map-app deployment on end devices, removing repetitive manual tasks and reducing errors.",
+        "Worked closely with the infrastructure team to optimize Linux-based workflows and operational efficiency.",
       ],
     },
   ],
 
   education: [
-    "Bachelor's Degree in Computer Engineering (Information Systems specialization) — 4th year",
+    "Computer Engineering — Management & Information Systems (4th year)",
     "Higher Technician in Multiplatform Application Development (DAM)",
   ],
 };
@@ -74,6 +71,12 @@ const ASCII = String.raw`
  / __ | / // _ \/ -_)/ __/ / __/
 /_/ |_|/_//_.__/\__//_/    \__/
 `;
+
+// Logo compacte (inicial "A") per a la sortida estil neofetch
+const ASCII_MINI = String.raw`   ___
+  / _ |
+ / __ |
+/_/ |_|`;
 
 const output = document.getElementById("output");
 const input = document.getElementById("cmdInput");
@@ -109,6 +112,7 @@ const COMMANDS = {
       ["about", "who I am"],
       ["skills", "my tech stack"],
       ["experience", "work & project experience"],
+      ["projects", "open the projects window"],
       ["education", "my studies"],
       ["contact", "how to reach me"],
       ["whoami", "quick info"],
@@ -122,36 +126,80 @@ const COMMANDS = {
   },
 
   about() {
+    // Capçalera estil neofetch: logo ASCII + taula de dades
+    const rows = [
+      ["Role", DATA.role],
+      ["Focus", "Frontend"],
+      ["Place", DATA.location],
+      ["Study", DATA.studies],
+      ["Email", DATA.email],
+    ];
+    const info = rows
+      .map(([k, v]) => `<div class="nf-row"><span class="nf-key">${k}</span><span class="nf-val">${esc(v)}</span></div>`)
+      .join("");
+
+    print(
+      `<div class="neofetch">` +
+        `<pre class="neofetch__logo">${ASCII_MINI}</pre>` +
+        `<div class="neofetch__info">` +
+          `<div class="neofetch__name">${esc(DATA.name)}</div>` +
+          `<div class="neofetch__rule"></div>` +
+          info +
+        `</div>` +
+      `</div>`
+    );
+
     print('<span class="yellow bold">// About me</span>');
-    DATA.about.forEach((l) => print(esc(l)));
+    DATA.about.forEach((l) => print(`<span class="muted">•</span> ${esc(l)}`, "bullet"));
   },
 
   skills() {
     print('<span class="yellow bold">// Tech stack</span>');
     for (const [cat, items] of Object.entries(DATA.stack)) {
-      print(`  <span class="cyan bold">${cat.padEnd(11)}</span> ${items.join(" · ")}`);
+      const chips = items.map((i) => `<span class="chip">${esc(i)}</span>`).join("");
+      print(
+        `<span class="nf-key cyan bold">${esc(cat)}</span><span class="chips">${chips}</span>`,
+        "kv-row"
+      );
     }
   },
 
   experience() {
     print('<span class="yellow bold">// Experience</span>');
     DATA.experience.forEach((job) => {
-      print(`\n  <span class="green bold">${esc(job.role)}</span> <span class="muted">@ ${esc(job.company)}</span>`);
-      print(`  <span class="purple">${esc(job.time)}</span>`);
-      job.points.forEach((p) => print(`    <span class="muted">-</span> ${esc(p)}`));
+      print(
+        `<span class="green bold">●</span> <span class="green bold">${esc(job.role)}</span> <span class="muted">@ ${esc(job.company)}</span>`,
+        "xp-head"
+      );
+      print(`<span class="purple">${esc(job.time)}</span>`, "xp-time");
+      job.points.forEach((p, i) => {
+        const branch = i === job.points.length - 1 ? "└" : "├";
+        print(`<span class="muted">${branch}</span> ${esc(p)}`, "xp-point");
+      });
     });
   },
 
   education() {
     print('<span class="yellow bold">// Education</span>');
-    DATA.education.forEach((e) => print(`  <span class="muted">·</span> ${esc(e)}`));
+    DATA.education.forEach((e) => print(`<span class="cyan bold">●</span> ${esc(e)}`, "edu-row"));
+  },
+
+  projects() {
+    print('<span class="muted">Opening Projects window...</span>');
+    const m = document.getElementById("projectsModal");
+    if (m) openModal(m);
   },
 
   contact() {
     print('<span class="yellow bold">// Contact</span>');
-    print(`  Email:    <a href="mailto:${DATA.email}">${DATA.email}</a>`);
-    print(`  GitHub:   <a href="${DATA.github}" target="_blank" rel="noopener">${DATA.github}</a>`);
-    print(`  LinkedIn: <a href="${DATA.linkedin}" target="_blank" rel="noopener">${DATA.linkedin}</a>`);
+    const rows = [
+      ["Email", `<a href="mailto:${DATA.email}">${esc(DATA.email)}</a>`],
+      ["GitHub", `<a href="${DATA.github}" target="_blank" rel="noopener">${esc(DATA.github)}</a>`],
+      ["LinkedIn", `<a href="${DATA.linkedin}" target="_blank" rel="noopener">${esc(DATA.linkedin)}</a>`],
+    ];
+    rows.forEach(([k, v]) =>
+      print(`<span class="nf-key cyan bold">${k}</span><span class="nf-val">${v}</span>`, "kv-row")
+    );
   },
 
   whoami() {
@@ -182,7 +230,6 @@ const ALIASES = {
   "?": "help",
   cls: "clear",
   work: "experience",
-  projects: "experience",
   studies: "education",
   links: "contact",
 };
@@ -307,6 +354,52 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+// ---------- Hero: efecte màquina d'escriure ----------
+async function typeText(el, text, speed = 55) {
+  el.classList.add("typing");
+  for (let i = 0; i < text.length; i++) {
+    el.textContent += text[i];
+    await sleep(speed);
+  }
+  el.classList.remove("typing");
+}
+
+async function heroIntro() {
+  const l1 = document.getElementById("heroType1");
+  const l2 = document.getElementById("heroType2");
+  const cta = document.getElementById("enterTerminal");
+  if (!l1 || !l2 || !cta) return;
+
+  const reduceMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion) {
+    l1.textContent = "Hi. I'm Albert Mora.";
+    l2.textContent = "I build software.";
+    cta.classList.add("show");
+    return;
+  }
+
+  await sleep(450);
+  await typeText(l1, "Hi. I'm Albert Mora.");
+  await sleep(280);
+  await typeText(l2, "I build software.");
+  l2.classList.add("cursor-on"); // deixa un cursor parpellejant a la línia final
+  await sleep(220);
+  cta.classList.add("show");
+}
+
+heroIntro();
+
+// El botó "Enter terminal" llisca fins a l'escriptori (i activa el boot)
+const enterTerminalBtn = document.getElementById("enterTerminal");
+if (enterTerminalBtn) {
+  enterTerminalBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    goTo(1);
+  });
+}
+
 // ---------- Aparició suau del contingut de cada pantalla ----------
 if ("IntersectionObserver" in window) {
   const animObs = new IntersectionObserver(
@@ -416,8 +509,10 @@ function closeAllModals() {
 
 const photoIcon = document.getElementById("photoIcon");
 const cvIcon = document.getElementById("cvIcon");
+const projectsIcon = document.getElementById("projectsIcon");
 if (photoIcon) photoIcon.addEventListener("click", () => openModal(document.getElementById("photoModal")));
 if (cvIcon) cvIcon.addEventListener("click", () => openModal(document.getElementById("cvModal")));
+if (projectsIcon) projectsIcon.addEventListener("click", () => openModal(document.getElementById("projectsModal")));
 
 // Qualsevol element amb data-close tanca el seu popup (creueta o fons)
 document.querySelectorAll("[data-close]").forEach((el) =>
