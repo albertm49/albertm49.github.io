@@ -4,150 +4,180 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Albert Mora · Full-Stack Developer</title>
-  <meta name="description" content="Albert Mora Costillo, Full-Stack Developer & Computer Engineer based in Barcelona. Web & mobile apps with Angular, .NET, Flutter and more." />
+  <meta name="description" content="Albert Mora Costillo, full-stack developer and computer engineer between Barcelona and Arenys de Mar. Web and mobile products with Angular, .NET, Flutter and more." />
+  <meta name="theme-color" content="#0A0A0A" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="landing.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="terminal.css" />
+  <link rel="stylesheet" href="app.css" />
   <script>
-    // Activa l'estat inicial d'animació només si l'usuari no demana menys moviment.
-    // Sense aquesta classe, tot el contingut és visible per defecte (cap reveal pot deixar res en blanc).
-    if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
-      document.documentElement.classList.add("motion");
-    }
+    document.documentElement.classList.add("js");
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("reduced");
   </script>
 </head>
-<body id="top">
-  <!-- Barra de progrés de lectura -->
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<body>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 
-  <!-- Fons viu (gradients que deriven lentament + grid + gra) -->
-  <div class="bg-fx" aria-hidden="true">
-    <div class="bg-fx__mesh"></div>
-    <div class="bg-fx__grid"></div>
-  </div>
+  <!-- Ghost words, fixed behind everything -->
+  <div class="ghost" aria-hidden="true"><span>albert</span><span>mora</span></div>
+  <!-- Koi pond, fixed behind the content -->
+  <canvas class="pond" id="pond" aria-hidden="true"></canvas>
 
-  <!-- ===================== NAV ===================== -->
-  <header class="nav">
-    <a class="nav__brand" href="#top">albert<span>.dev</span></a>
-    <nav class="nav__links">
-      <a href="#projects" data-i18n="navProjects">Projects</a>
-      <a href="#experience" data-i18n="navExperience">Experience</a>
-      <a href="#skills" data-i18n="navSkills">Skills</a>
-      <a href="#contact" data-i18n="navContact">Contact</a>
-    </nav>
-    <div class="nav__right">
+  <!-- Top chrome -->
+  <header class="top" id="top">
+    <a class="top__mark" href="#hero" aria-label="Albert Mora, back to top">AM</a>
+    <div class="top__right">
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="ca">CA</button>
         <button type="button" data-lang="es">ES</button>
         <button type="button" data-lang="en">EN</button>
       </div>
-      <button class="nav__terminal js-open-terminal" type="button">
-        <span class="nav__terminal-glyph" aria-hidden="true">&gt;_</span> <span data-i18n="navTerminal">Terminal</span>
+      <button class="pill pill--ghost js-open-terminal" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l5 5-5 5M12 18h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="navTerminal">Terminal</span>
       </button>
+      <button class="pill" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><span data-t="menu">Menu</span></button>
     </div>
+    <p class="top__clock"><span id="clock">--:--</span> BCN</p>
   </header>
 
-  <main>
-    <!-- ===================== HERO ===================== -->
-    <section class="hero">
-      <div class="hero__inner">
-        <span class="hero__tag" data-reveal>
-          <span class="hero__avatar-wrap"><img class="hero__avatar" src="assets/AlbertImage.jpg" alt="Albert Mora" /></span>
-          <span class="hero__tag-text" data-i18n="heroTagText">Full-Stack Developer · Computer Engineer</span>
-        </span>
-        <h1 class="hero__title">
-          <span class="hero__line"><span class="hero__line-inner" data-i18n="heroLine1">Hi, I'm Albert.</span></span>
-          <span class="hero__line hero__line--build"><span class="hero__line-inner"><span class="hero__build" data-i18n="heroBuild">I build</span> <span class="hero__typed" id="heroTyped"></span><span class="hero__caret" aria-hidden="true"></span></span></span>
-        </h1>
-        <p class="hero__sub" data-reveal data-i18n="heroSub">
-          Junior who ships like it matters, real products for real clients, built fast and under Agile.
-        </p>
-        <div class="hero__cta" data-reveal>
-          <a href="#projects" class="btn btn--primary" data-magnetic data-i18n="ctaProjects">View projects</a>
-          <a href="assets/CvAlbertMoraEng.pdf" class="btn" download data-magnetic data-i18n="ctaCV">Download CV</a>
-          <button class="btn btn--ghost js-open-terminal" type="button" data-magnetic>
-            <span aria-hidden="true">&gt;_</span> <span data-i18n="ctaTerminal">Terminal mode</span>
-          </button>
+  <!-- Full-screen menu -->
+  <nav class="menu" id="menu" aria-label="Sections" hidden>
+    <ol class="menu__list">
+      <li><a href="#about" data-i18n="navAbout">About</a></li>
+      <li><a href="#work" data-i18n="navWork">Work</a></li>
+      <li><a href="#experience" data-i18n="navExperience">Experience</a></li>
+      <li><a href="#stack" data-i18n="navStack">Toolbox</a></li>
+      <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+    </ol>
+    <div class="menu__foot">
+      <a href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a>
+      <a href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/albertm49" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- HERO: ink reveal -->
+    <section class="hero" id="hero" aria-labelledby="heroName">
+      <canvas class="hero__ink" id="ink" aria-hidden="true"></canvas>
+      <p class="hero__hint" data-t="reveal">Move the cursor to reveal</p>
+      <h1 class="hero__name" id="heroName"><span>Albert</span> <span>Mora</span></h1>
+      <aside class="hero__side">
+        <p class="hero__meta"><span data-t="based">Based in Barcelona &amp; Arenys de Mar</span><br /><span data-t="field">Web &amp; mobile</span></p>
+        <div class="hero__claim">
+          <p class="hero__role" data-t="role">Full-stack developer</p>
+          <p class="hero__big" id="heroBig"></p>
         </div>
-        <div class="hero__socials" data-reveal>
-          <a href="https://github.com/albertm49" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          </a>
-          <a href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.25 8.25h4.5V23H.25V8.25zM8.5 8.25h4.31v2.02h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.36c0-1.52-.03-3.48-2.12-3.48-2.12 0-2.45 1.66-2.45 3.37V23H8.5V8.25z"/></svg>
-          </a>
-          <a href="mailto:albert.moracostillo@gmail.com" aria-label="Email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-          </a>
+        <div class="hero__foot">
+          <div class="hero__cta">
+            <a class="pill pill--solid" href="#work" data-i18n="ctaWork">See my work</a>
+            <a class="pill pill--ghost" href="assets/CvAlbertMoraEng.pdf" download data-cv data-i18n="ctaCV">Download CV</a>
+          </div>
+          <p class="hero__avail"><span class="dot" aria-hidden="true"></span><span data-i18n="available">Available for work</span></p>
         </div>
-      </div>
-      <div class="hero__scroll" aria-hidden="true"><span></span></div>
+      </aside>
     </section>
 
-    <!-- ===================== ABOUT ===================== -->
-    <section class="section" id="about">
-      <div class="section__head" data-reveal>
-        <h2 class="section__title" data-i18n="secAbout">About</h2>
-      </div>
-      <div class="about" id="aboutText"><!-- injectat per site.js --></div>
+    <!-- ABOUT: words light up as you read -->
+    <section class="about" id="about" aria-labelledby="aboutTitle">
+      <h2 class="label" id="aboutTitle" data-i18n="secAbout">About</h2>
+      <p class="about__statement" id="statement"></p>
+      <ul class="about__facts" id="facts"></ul>
     </section>
 
-    <!-- ===================== PROJECTS ===================== -->
-    <section class="section" id="projects">
-      <div class="section__head" data-reveal>
-        <h2 class="section__title" data-i18n="secProjects">Selected work</h2>
-        <span class="section__aside" id="projCount"></span>
+    <!-- WORK: sphere of cards around the word -->
+    <section class="work" id="work" aria-labelledby="workTitle">
+      <div class="work__stage" id="stage">
+        <div class="sphere" id="sphere" aria-hidden="true"></div>
+        <h2 class="work__title" id="workTitle" data-i18n="navWork">Work</h2>
+        <p class="work__hint"><span data-t="drag">Drag to spin</span><br /><span data-t="click">Click to open</span></p>
       </div>
-      <div class="proj-grid" id="projGrid"><!-- injectat per site.js --></div>
+      <ol class="projects" id="projects" aria-label="Projects"></ol>
     </section>
 
-    <!-- ===================== EXPERIENCE ===================== -->
-    <section class="section" id="experience">
-      <div class="section__head" data-reveal>
-        <h2 class="section__title" data-i18n="secExperience">Experience</h2>
-      </div>
-      <div class="timeline" id="timeline"><!-- injectat per site.js --></div>
-    </section>
-
-    <!-- ===================== SKILLS ===================== -->
-    <section class="section" id="skills">
-      <div class="section__head" data-reveal>
-        <h2 class="section__title" data-i18n="secSkills">Toolbox</h2>
-      </div>
-      <div class="skills" id="skillsList"><!-- injectat per site.js --></div>
-      <div class="edu" id="eduList" data-reveal><!-- injectat per site.js --></div>
-    </section>
-
-    <!-- ===================== CONTACT ===================== -->
-    <section class="section section--contact" id="contact">
-      <div class="contact__card" data-reveal>
-        <h2 class="contact__title" data-i18n-html="contactTitle">Let's build<br />something.</h2>
-        <p class="contact__lead" data-i18n="contactLead">
-          Open to junior full-stack / frontend roles. Fast to onboard, easy to work with.
-        </p>
-        <div class="contact__actions">
-          <a class="btn btn--primary" href="mailto:albert.moracostillo@gmail.com" data-magnetic data-i18n="contactEmail">Email me</a>
-          <a class="btn" href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener" data-magnetic>LinkedIn</a>
-          <a class="btn" href="https://github.com/albertm49" target="_blank" rel="noopener" data-magnetic>GitHub</a>
+    <!-- EXPERIENCE: table with hover sweep -->
+    <section class="exp" id="experience" aria-labelledby="expTitle">
+      <h2 class="big-title" id="expTitle" data-i18n="secExperience">Experience</h2>
+      <div class="table" role="table" aria-labelledby="expTitle">
+        <div class="table__head" role="row">
+          <span role="columnheader" data-t="thNo">No.</span>
+          <span role="columnheader" data-t="thCompany">Company</span>
+          <span role="columnheader" data-t="thRole">Role</span>
+          <span role="columnheader" data-t="thPeriod">Context</span>
         </div>
-        <p class="contact__cv">
-          <span data-i18n="contactCvLabel">Download CV:</span>
-          <a href="assets/CvAlbertMoraEng.pdf" download>EN</a> ·
-          <a href="assets/AlbertMoraCvEsp.pdf" download>ES</a> ·
-          <a href="assets/AlbertMoraCvCat.pdf" download>CAT</a>
-        </p>
+        <div id="expRows"></div>
       </div>
+      <div class="edu">
+        <h3 class="label" data-i18n="eduTitle">Education</h3>
+        <ul id="eduList"></ul>
+      </div>
+    </section>
+
+    <!-- TOOLBOX -->
+    <section class="tools" id="stack" aria-labelledby="stackTitle">
+      <h2 class="big-title" id="stackTitle" data-i18n="secStack">Toolbox</h2>
+      <dl class="tools__grid" id="toolList"></dl>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" aria-labelledby="contactTitle">
+      <p class="label" data-i18n="navContact">Contact</p>
+      <h2 class="contact__title" id="contactTitle" data-i18n-html="contactTitle">Let's build<br />something.</h2>
+      <p class="contact__lead" data-i18n="contactLead">Open to junior full-stack and backend roles.</p>
+      <a class="contact__mail" href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a>
+      <ul class="contact__links">
+        <li><a href="https://linkedin.com/in/albert-mora-costillo-219301226" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/albertm49" target="_blank" rel="noopener">GitHub</a></li>
+        <li><span data-i18n="contactCvLabel">CV in</span> <a href="assets/CvAlbertMoraEng.pdf" download>EN</a>, <a href="assets/AlbertMoraCvEsp.pdf" download>ES</a>, <a href="assets/AlbertMoraCvCat.pdf" download>CA</a></li>
+      </ul>
+      <footer class="footer">
+        <span>© Albert Mora Costillo</span>
+        <button class="pill pill--ghost js-open-terminal" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l5 5-5 5M12 18h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="footerHint">Prefer a shell? Open the terminal</span>
+        </button>
+      </footer>
     </section>
   </main>
 
-  <footer class="footer">
-    <span>© Albert Mora Costillo</span>
-    <button class="footer__terminal js-open-terminal" type="button">
-      <span aria-hidden="true">&gt;_</span> <span data-i18n="footerHint">psst… try terminal mode</span>
-    </button>
-  </footer>
+  <!-- Project case study: full-screen, themed with each project's colours -->
+  <div class="sheet" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelName" hidden>
+    <div class="sheet__bar">
+      <p class="sheet__count"><span id="sheetNo">01</span><span class="sheet__of">/</span><span id="sheetTotal">04</span></p>
+      <div class="sheet__nav">
+        <button class="pill sheet__btn" id="sheetPrev" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="prev">Previous</span></button>
+        <button class="pill sheet__btn" id="sheetNext" type="button"><span data-t="next">Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="pill sheet__close" id="panelClose" type="button" data-t="close">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet__stage" id="sheetStage">
+      <figure class="mock" id="mock">
+        <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i><span id="mockUrl"></span></div>
+        <div class="mock__screen" id="mockScreen"><img id="panelLogo" src="assets/Logo.png" alt="" /></div>
+      </figure>
+    </div>
+
+    <h3 class="sheet__name" id="panelName"></h3>
+
+    <div class="sheet__info" id="sheetInfo">
+      <div><p class="sheet__label" data-t="kind">Type</p><p id="panelTag"></p></div>
+      <div class="sheet__about"><p class="sheet__label" data-t="aboutL">About</p><p id="panelDesc"></p></div>
+      <div><p class="sheet__label" data-t="stackL">Stack</p><ul class="sheet__tags" id="panelTags"></ul></div>
+      <div class="sheet__cta" id="panelLink"></div>
+    </div>
+  </div>
+
+  <!-- Cursor preview for projects: images stacked in a track that slides between projects -->
+  <div class="ppeek" id="ppeek" aria-hidden="true">
+    <div class="ppeek__frame"><div class="ppeek__track" id="ppeekTrack"></div></div>
+    <p class="ppeek__cap"><b id="ppeekName"></b><span id="ppeekTag"></span></p>
+  </div>
+
+  <!-- Cursor preview for the experience table -->
+  <div class="peek" id="peek" aria-hidden="true"></div>
 
   <!-- ===================== TERMINAL OVERLAY (mode opcional) ===================== -->
   <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true">
@@ -288,14 +318,15 @@
             <span class="dot dot--green"></span>
             <span class="modal__title">~/projects</span>
           </div>
-          <div class="projects-grid" id="projectsGrid"><!-- injectat per site.js --></div>
+          <div class="projects-grid" id="projectsGrid"><!-- injectat per app.js --></div>
         </div>
       </div>
     </section>
   </div>
 
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="i18n.js"></script>
   <script src="terminal.js"></script>
-  <script type="module" src="site.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@
   --purple: #bc8cff;
   --red: #ff7b72;
   --blue: #58a6ff;
-  --muted: #6e7681;
+  --muted: #8b949e;
 }
 
 /* ===== Overlay del "Terminal mode" ===== */
@@ -457,8 +457,8 @@
 .muted { color: var(--muted); }
 .bold { font-weight: 700; }
 
-a { color: var(--blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
+.terminal-overlay a { color: var(--blue); text-decoration: none; }
+.terminal-overlay a:hover { text-decoration: underline; }
 
 .cmd-echo .prompt { opacity: 0.9; }
 
