@@ -134,7 +134,11 @@ function buildCabinet() {
   }).join("");
   if (!panel.hidden) markFront(current, false);
 }
+// each call gets a generation; only the latest one may fold the others away,
+// so rapid clicks can't close the folder that is opening on top
+let frontGen = 0;
 function markFront(i, animate) {
+  const gen = ++frontGen;
   $$("#cabinet .folder").forEach((f) => {
     const on = +f.dataset.i === i;
     const tab = $(".folder__tab", f);
@@ -145,13 +149,20 @@ function markFront(i, animate) {
       if (animate && !reduced) {
         f.classList.add("is-pulling");
         requestAnimationFrame(() => f.classList.add("is-front"));
-        f.addEventListener("transitionend", function done(e) {
-          if (e.propertyName !== "clip-path") return;
+        let settled = false;
+        const done = (e) => {
+          if (settled || (e && e.target !== f) || (e && e.propertyName !== "clip-path")) return;
+          settled = true;
           f.removeEventListener("transitionend", done);
+          f.removeEventListener("transitioncancel", done);
           f.classList.remove("is-pulling");
+          if (gen !== frontGen) return;
           // the folder now behind folds back down to its tab, unseen
-          $$("#cabinet .folder.is-front").forEach((o) => { if (o !== f) o.classList.remove("is-front"); });
-        });
+          $$("#cabinet .folder.is-front").forEach((o) => { if (o !== f) o.classList.remove("is-front", "is-pulling"); });
+        };
+        f.addEventListener("transitionend", done);
+        f.addEventListener("transitioncancel", done);
+        setTimeout(done, 1000); // safety net if no transition event arrives
       } else {
         f.classList.add("is-front");
       }
@@ -429,9 +440,12 @@ function openPanel(i, x, y) {
 }
 // switch folders without closing: content drops out, the chosen folder
 // opens down from its tab over the current one, new content rises in
-let swapping = false;
+let swapping = false, pending = null;
 function goToProject(next, focusTab) {
-  if (swapping || panel.hidden || next === current) return;
+  if (panel.hidden) return;
+  // a click during a swap is remembered and played once the swap ends
+  if (swapping) { pending = next; return; }
+  if (next === current) return;
   if (reduced) { fillPanel(next); markFront(next, false); if (focusTab) $("#tab-" + next).focus(); return; }
   swapping = true;
   panel.classList.add("is-swapping");
@@ -441,7 +455,10 @@ function goToProject(next, focusTab) {
     fillPanel(next);
     $("#folderContent").scrollTop = 0;
     panel.classList.remove("is-swapping");
-    requestAnimationFrame(() => requestAnimationFrame(() => { panel.classList.add("is-in"); swapping = false; }));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.classList.add("is-in"); swapping = false;
+      if (pending !== null) { const n = pending; pending = null; goToProject(n); }
+    }));
   }, 420);
   if (focusTab) $("#tab-" + next).focus({ preventScroll: true });
 }
@@ -450,6 +467,7 @@ function stepPanel(dir) {
   goToProject((current + dir + n) % n);
 }
 function closePanel() {
+  pending = null;
   panel.classList.remove("is-open", "is-in");
   lenis && lenis.start();
   pond && pond.pause(false);
