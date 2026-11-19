@@ -6,6 +6,7 @@
   <title>Albert Mora · Full-Stack Developer</title>
   <meta name="description" content="Albert Mora Costillo, full-stack developer and computer engineer between Barcelona and Arenys de Mar. Web and mobile products with Angular, .NET, Flutter and more." />
   <meta name="theme-color" content="#0A0A0A" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230a0a0a'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-weight='700' font-size='26' fill='%23eceae4'%3EAM%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -26,14 +27,14 @@
 
   <!-- Top chrome -->
   <header class="top" id="top">
-    <a class="top__mark" href="#hero" aria-label="Albert Mora, back to top">AM</a>
+    <a class="top__mark" href="#hero" aria-label="AM, Albert Mora, back to top">AM</a>
     <div class="top__right">
       <div class="lang-switch" role="group" aria-label="Language">
         <button type="button" data-lang="ca">CA</button>
         <button type="button" data-lang="es">ES</button>
         <button type="button" data-lang="en">EN</button>
       </div>
-      <button class="pill pill--ghost js-open-terminal" type="button">
+      <button class="pill pill--ghost js-open-terminal" type="button" aria-label="Terminal">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l5 5-5 5M12 18h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="navTerminal">Terminal</span>
       </button>
@@ -101,12 +102,12 @@
     <!-- EXPERIENCE: table with hover sweep -->
     <section class="exp" id="experience" aria-labelledby="expTitle">
       <h2 class="big-title" id="expTitle" data-i18n="secExperience">Experience</h2>
-      <div class="table" role="table" aria-labelledby="expTitle">
-        <div class="table__head" role="row">
-          <span role="columnheader" data-t="thNo">No.</span>
-          <span role="columnheader" data-t="thCompany">Company</span>
-          <span role="columnheader" data-t="thRole">Role</span>
-          <span role="columnheader" data-t="thPeriod">Context</span>
+      <div class="table">
+        <div class="table__head" aria-hidden="true">
+          <span data-t="thNo">No.</span>
+          <span data-t="thCompany">Company</span>
+          <span data-t="thRole">Role</span>
+          <span data-t="thPeriod">Context</span>
         </div>
         <div id="expRows"></div>
       </div>
@@ -161,7 +162,7 @@
     <div class="sheet__stage" id="sheetStage">
       <figure class="mock" id="mock">
         <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i><span id="mockUrl"></span></div>
-        <div class="mock__screen" id="mockScreen"><img id="panelLogo" src="assets/Logo.png" alt="" /></div>
+        <div class="mock__screen" id="mockScreen"><img id="panelLogo" src="assets/Logo.webp" alt="" loading="lazy" decoding="async" /></div>
       </figure>
     </div>
 
@@ -294,7 +295,7 @@
             <span class="dot dot--green"></span>
             <span class="modal__title">AlbertImage.jpg</span>
           </div>
-          <img src="assets/AlbertImage.jpg" alt="Albert Mora" class="modal__img" />
+          <img src="assets/AlbertImage.webp" alt="Albert Mora" class="modal__img" loading="lazy" decoding="async" width="1024" height="1024" />
         </div>
       </div>
 

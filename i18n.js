@@ -23,10 +23,10 @@ const SHARED = {
   expCompanies: ["Sofa Events", "Codelearn", "SoftDevArts", "Leviathan Creative Studios", "TwoNav"],
   projects: [
     { id: "tryvo", name: "Tryvo", url: "", logo: "assets/logo_tryvo.svg", accent: "tryvo", tags: ["Flutter", "Dart", "Riverpod", "Supabase", "PostgreSQL", "Edge Functions", "Gemini"] },
-    { id: "aza", name: "AZA", url: "https://aza.family/", logo: "assets/Logo.png", accent: "aza", tags: ["Angular", "TypeScript", "C#", ".NET", "PostgreSQL", "AWS"] },
+    { id: "aza", name: "AZA", url: "https://aza.family/", logo: "assets/Logo.webp", accent: "aza", tags: ["Angular", "TypeScript", "C#", ".NET", "PostgreSQL", "AWS"] },
     { id: "softdev", name: "SoftDevArts", url: "https://www.softdevarts.com/", logo: "assets/logo_softdevarts.svg", accent: "softdev", tags: ["Web", "Responsive", "SEO"] },
     { id: "owl", name: "OwlInstitute", url: "", logo: "assets/naranja_owl_footer.png", accent: "owl", tags: ["Flutter", "Dart", "Firebase"] },
-    { id: "ekoora", name: "Ekoora", url: "", logo: "assets/logo_ekoora_sm.png", accent: "ekoora", tags: ["EdTech", "Gamification", "Real-time", "Supabase / Firestore"] },
+    { id: "ekoora", name: "Ekoora", url: "", logo: "assets/logo_ekoora_sm.webp", accent: "ekoora", tags: ["EdTech", "Gamification", "Real-time", "Supabase / Firestore"] },
   ],
 };
 

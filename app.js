@@ -70,12 +70,12 @@ function render() {
 
   // experience table
   $("#expRows").innerHTML = D.experience.map((j, i) =>
-    `<div class="erow-wrap" role="row">` +
+    `<div class="erow-wrap">` +
       `<button class="erow" type="button" aria-expanded="false" aria-controls="exp-${i}" data-e="${i}">` +
-        `<span class="erow__no" role="cell">${String(i + 1).padStart(2, "0")}</span>` +
-        `<span class="erow__co" role="cell">${esc(j.company)}</span>` +
-        `<span class="erow__role" role="cell">${esc(j.role)}</span>` +
-        `<span class="erow__time" role="cell">${esc(j.time)}</span>` +
+        `<span class="erow__no">${String(i + 1).padStart(2, "0")}</span>` +
+        `<span class="erow__co">${esc(j.company)}</span>` +
+        `<span class="erow__role">${esc(j.role)}</span>` +
+        `<span class="erow__time">${esc(j.time)}</span>` +
         `<span class="erow__plus" aria-hidden="true"></span></button>` +
       `<div class="erow__detail" id="exp-${i}"><div><ul>` +
         `<li class="erow__mobile-meta">${esc(j.role)}, ${esc(j.time)}</li>` +
@@ -307,7 +307,7 @@ function buildSphere() {
       el.style.background = "var(--paper)";
       el.innerHTML = `<img src="${p.logo}" alt="" draggable="false" loading="lazy" decoding="async" />`;
     } else if (it.kind === "photo") {
-      el.innerHTML = `<img src="assets/AlbertImage.jpg" alt="" draggable="false" loading="lazy" decoding="async" />`;
+      el.innerHTML = `<img src="assets/AlbertImage.webp" alt="" draggable="false" loading="lazy" decoding="async" />`;
     } else {
       el.textContent = it.w;
       el.style.background = i % 3 ? "var(--paper)" : "#2A2926";
@@ -511,7 +511,7 @@ async function startInk() {
   try {
     const { createInk } = await import("./ink.js");
     ink = createInk($("#ink"), {
-      src: "assets/AlbertImage.jpg",
+      src: "assets/AlbertImage.webp",
       reduced,
       // portrait frame: centre-right on desktop, top half on mobile
       rect: (W, H) => {
@@ -582,7 +582,8 @@ function terminal() {
 render();
 initPreview();
 terminal();
-startInk();
+const whenIdle = (fn) => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 300));
+addEventListener("load", () => whenIdle(startInk), { once: true });
 startPond();
 loopSphere();
 addEventListener("langchange", () => {
