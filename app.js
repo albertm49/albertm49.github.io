@@ -14,13 +14,13 @@ if (!finePointer) document.documentElement.classList.add("no-hover");
 const T = {
   en: { menu: "Menu", close: "Close", reveal: "Move the cursor to reveal. Click anywhere to feed the koi.", based: "Based in Barcelona & Arenys de Mar", field: "Web & mobile development",
         role: "Full-stack developer", big: ["Products", "built end", "to end."], drag: "Drag to spin", click: "Click a project to open it",
-        thNo: "No.", thCompany: "Company", thRole: "Role", thPeriod: "Context", open: "Open", prev: "Previous", next: "Next", kind: "Type", aboutL: "About", stackL: "Stack", app: "Mobile app" },
+        thNo: "No.", thCompany: "Company", thRole: "Role", thPeriod: "Context", open: "Open", prev: "Previous", next: "Next", kind: "Type", aboutL: "About", stackL: "Stack", app: "Mobile app", scrollMore: "Scroll for more", howTitle: "How it works" },
   ca: { menu: "Menú", close: "Tancar", reveal: "Mou el cursor per revelar. Clica on vulguis per donar menjar a les carpes.", based: "Entre Barcelona i Arenys de Mar", field: "Desenvolupament web i mòbil",
         role: "Desenvolupador full-stack", big: ["Productes", "fets de cap", "a cap."], drag: "Arrossega per girar", click: "Clica un projecte per obrir-lo",
-        thNo: "Núm.", thCompany: "Empresa", thRole: "Rol", thPeriod: "Context", open: "Obrir", prev: "Anterior", next: "Següent", kind: "Tipus", aboutL: "Sobre el projecte", stackL: "Stack", app: "App mòbil" },
+        thNo: "Núm.", thCompany: "Empresa", thRole: "Rol", thPeriod: "Context", open: "Obrir", prev: "Anterior", next: "Següent", kind: "Tipus", aboutL: "Sobre el projecte", stackL: "Stack", app: "App mòbil", scrollMore: "Baixa per veure més", howTitle: "Com funciona" },
   es: { menu: "Menú", close: "Cerrar", reveal: "Mueve el cursor para revelar. Haz clic donde quieras para dar de comer a las carpas.", based: "Entre Barcelona y Arenys de Mar", field: "Desarrollo web y móvil",
         role: "Desarrollador full-stack", big: ["Productos", "hechos de", "principio a fin."], drag: "Arrastra para girar", click: "Haz clic en un proyecto para abrirlo",
-        thNo: "Nº", thCompany: "Empresa", thRole: "Rol", thPeriod: "Contexto", open: "Abrir", prev: "Anterior", next: "Siguiente", kind: "Tipo", aboutL: "Sobre el proyecto", stackL: "Stack", app: "App móvil" },
+        thNo: "Nº", thCompany: "Empresa", thRole: "Rol", thPeriod: "Contexto", open: "Abrir", prev: "Anterior", next: "Siguiente", kind: "Tipo", aboutL: "Sobre el proyecto", stackL: "Stack", app: "App móvil", scrollMore: "Baja para ver más", howTitle: "Cómo funciona" },
 };
 const lang = () => window.I18N.getLang();
 const t = () => T[lang()] || T.en;
@@ -32,9 +32,15 @@ const PREVIEW = {
   softdev: "assets/previews/softdev.jpg",
   ekoora: "assets/previews/ekoora.jpg",
 };
-const TILE = { owl: "#FFE9DC" };
+const TILE = { owl: "#FFE9DC", tryvo: "#EEEDFC" };
+// App screenshots shown as a strip of phones at the top of the deep dive
+const SHOTS = {
+  tryvo: ["01_inici", "02_resum", "04_pla", "05_diners", "06_colla"].map((f) => `assets/screens/tryvo/${f}.webp`),
+  ekoora: ["02-inici", "03-cami", "05-joc-questionari", "06-joc-vertader-fals", "09-ranquing"].map((f) => `assets/screens/ekoora/${f}.webp`),
+};
 // Case-study colours: each project is painted in its own brand world
 const THEME = {
+  tryvo: { sb: "#5753D6", sf: "#FFFFFF" },
   aza: { sb: "#F6E2C4", sf: "#2E2724" },
   softdev: { sb: "#EBA900", sf: "#111111" },
   owl: { sb: "#E8772E", sf: "#1B0D04" },
@@ -75,7 +81,15 @@ function render() {
         `<li class="erow__mobile-meta">${esc(j.role)}, ${esc(j.time)}</li>` +
         j.points.map((x) => `<li>${esc(x)}</li>`).join("") +
       `</ul></div></div></div>`).join("");
-  $("#eduList").innerHTML = D.education.map((e) => `<li>${esc(e)}</li>`).join("");
+  // education: one row per study, current ones flagged
+  $("#studyList").innerHTML = (D.eduItems || []).map((e) =>
+    `<li class="study">` +
+      `<p class="study__time">${esc(e.time)}</p>` +
+      `<div class="study__main"><h3 class="study__title">${esc(e.title)}</h3>` +
+        `<p class="study__school">${esc(e.school)}</p>` +
+        (e.note ? `<p class="study__note">${esc(e.note)}</p>` : "") + `</div>` +
+      `<p class="study__status${e.now ? " is-now" : ""}">${e.now ? '<span class="dot" aria-hidden="true"></span>' : ""}${esc(e.status)}</p>` +
+    `</li>`).join("");
 
   // toolbox
   $("#toolList").innerHTML = Object.entries(D.stack).map(([cat, items]) =>
@@ -98,9 +112,65 @@ function render() {
     ? `<div class="ppeek__slide"><img src="${PREVIEW[p.id]}" alt="" loading="lazy" /></div>`
     : `<div class="ppeek__slide ppeek__slide--logo" style="background:${TILE[p.id] || "var(--paper)"}"><img src="${p.logo}" alt="" loading="lazy" /></div>`).join("");
 
+  buildCabinet();
   buildSphere();
   lightWords();
 }
+
+// ---------------------------------------------------------------------
+//  Filing cabinet: one folder per project. Tabs stay in place; only the
+//  folder in front changes, opening down from its tab.
+// ---------------------------------------------------------------------
+let zTop = 1;
+function buildCabinet() {
+  const D = window.DATA;
+  $("#cabinet").innerHTML = D.projects.map((p, i) => {
+    const th = THEME[p.id] || { sb: "#2A2926", sf: "#ECEAE4" };
+    return `<div class="folder" data-i="${i}" style="--i:${i};--fc:${th.sb};--ff:${th.sf}">` +
+      `<div class="folder__body"></div>` +
+      `<button class="folder__tab" type="button" role="tab" id="tab-${i}" aria-controls="folderContent" aria-selected="false" data-i="${i}">` +
+        `<img src="${p.logo}" alt="" decoding="async" /><span>${esc(p.name)}</span></button>` +
+    `</div>`;
+  }).join("");
+  if (!panel.hidden) markFront(current, false);
+}
+function markFront(i, animate) {
+  $$("#cabinet .folder").forEach((f) => {
+    const on = +f.dataset.i === i;
+    const tab = $(".folder__tab", f);
+    tab.setAttribute("aria-selected", String(on));
+    tab.tabIndex = on ? 0 : -1;
+    if (on) {
+      f.style.zIndex = ++zTop;
+      if (animate && !reduced) {
+        f.classList.add("is-pulling");
+        requestAnimationFrame(() => f.classList.add("is-front"));
+        f.addEventListener("transitionend", function done(e) {
+          if (e.propertyName !== "clip-path") return;
+          f.removeEventListener("transitionend", done);
+          f.classList.remove("is-pulling");
+          // the folder now behind folds back down to its tab, unseen
+          $$("#cabinet .folder.is-front").forEach((o) => { if (o !== f) o.classList.remove("is-front"); });
+        });
+      } else {
+        f.classList.add("is-front");
+      }
+    } else if (!animate || reduced) {
+      f.classList.remove("is-front", "is-pulling");
+    }
+  });
+  $("#folderContent").setAttribute("aria-labelledby", "tab-" + i);
+}
+$("#cabinet").addEventListener("click", (e) => {
+  const t = e.target.closest(".folder__tab");
+  if (t) goToProject(+t.dataset.i);
+});
+// arrow keys move between tabs, as in any tab list
+$("#cabinet").addEventListener("keydown", (e) => {
+  if (!e.target.closest(".folder__tab")) return;
+  if (e.key === "Home") { e.preventDefault(); goToProject(0, true); }
+  if (e.key === "End") { e.preventDefault(); goToProject(window.DATA.projects.length - 1, true); }
+});
 
 // ---------------------------------------------------------------------
 //  Project hover preview: follows the cursor, tilts with its speed and
@@ -142,7 +212,7 @@ function initPreview() {
 //  Smooth scroll + anchors
 // ---------------------------------------------------------------------
 let lenis = null;
-if (!reduced && window.Lenis) {
+if (!reduced && finePointer && window.Lenis) {
   lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true });
   const raf = (tm) => { lenis.raf(tm); requestAnimationFrame(raf); };
   requestAnimationFrame(raf);
@@ -218,9 +288,12 @@ function buildSphere() {
   const items = [];
   D.projects.forEach((p, i) => items.push({ kind: "project", p: i }));
   items.push({ kind: "photo" });
-  Object.values(D.stack).flat().slice(0, 12).forEach((w) => items.push({ kind: "word", w }));
-  D.projects.forEach((p, i) => items.push({ kind: "project", p: i }));
-  items.push({ kind: "photo" });
+  const phone = innerWidth < 700;
+  Object.values(D.stack).flat().slice(0, phone ? 6 : 12).forEach((w) => items.push({ kind: "word", w }));
+  if (!phone) {
+    D.projects.forEach((p, i) => items.push({ kind: "project", p: i }));
+    items.push({ kind: "photo" });
+  }
   // interleave so projects spread over the whole sphere
   const order = items.map((it, i) => [it, (i * 7) % items.length]).sort((a, b) => a[1] - b[1]).map((x) => x[0]);
 
@@ -232,9 +305,9 @@ function buildSphere() {
       const p = D.projects[it.p];
       el.dataset.p = it.p;
       el.style.background = "var(--paper)";
-      el.innerHTML = `<img src="${p.logo}" alt="" draggable="false" />`;
+      el.innerHTML = `<img src="${p.logo}" alt="" draggable="false" loading="lazy" decoding="async" />`;
     } else if (it.kind === "photo") {
-      el.innerHTML = `<img src="assets/AlbertImage.jpg" alt="" draggable="false" />`;
+      el.innerHTML = `<img src="assets/AlbertImage.jpg" alt="" draggable="false" loading="lazy" decoding="async" />`;
     } else {
       el.textContent = it.w;
       el.style.background = i % 3 ? "var(--paper)" : "#2A2926";
@@ -291,9 +364,12 @@ addEventListener("pointerup", (e) => {
 addEventListener("pointercancel", () => { drag = null; stage.classList.remove("dragging"); });
 new IntersectionObserver(([en]) => { sphereVisible = en.isIntersecting; }).observe(stage);
 
-function loopSphere() {
+let sphereLast = 0;
+function loopSphere(now) {
   requestAnimationFrame(loopSphere);
   if (!sphereVisible || !cards.length) return;
+  if (!finePointer && now - sphereLast < 1000 / 30 - 2) return;
+  sphereLast = now;
   if (!drag) { velY *= 0.95; rotY += velY + (reduced ? 0 : 0.0022); }
   placeCards();
 }
@@ -314,8 +390,6 @@ function fillPanel(i) {
   const D = window.DATA, p = D.projects[i], U = ui(), S = t(), th = THEME[p.id] || { sb: "#141414", sf: "#ECEAE4" };
   current = i;
   panel.style.setProperty("--sb", th.sb); panel.style.setProperty("--sf", th.sf);
-  $("#sheetNo").textContent = String(i + 1).padStart(2, "0");
-  $("#sheetTotal").textContent = String(D.projects.length).padStart(2, "0");
   const photo = PREVIEW[p.id];
   $("#mockScreen").classList.toggle("is-logo", !photo);
   $("#mockScreen").style.background = photo ? "#fff" : (TILE[p.id] || "#fff");
@@ -328,6 +402,15 @@ function fillPanel(i) {
   $("#panelTag").textContent = p.tagline;
   $("#panelDesc").textContent = p.desc;
   $("#panelTags").innerHTML = p.tags.map((tg) => `<li>${esc(tg)}</li>`).join("");
+  // deeper dive for projects that have highlights
+  const more = $("#sheetMore");
+  const shots = SHOTS[p.id] || [];
+  more.hidden = !p.highlights && !shots.length;
+  const shotsEl = $("#sheetShots");
+  shotsEl.hidden = !shots.length;
+  shotsEl.innerHTML = shots.map((src, k) => `<figure class="shot" style="--i:${k}"><img src="${src}" alt="${esc(p.name)} screen ${k + 1}" loading="lazy" decoding="async" width="540" height="${p.id === "tryvo" ? 1169 : 1090}" /></figure>`).join("");
+  $("#sheetFeatures").innerHTML = (p.highlights || []).map(([h, x]) => `<article class="feat"><h5>${esc(h)}</h5><p>${esc(x)}</p></article>`).join("");
+  $("#folderContent").scrollTop = 0;
   $("#panelLink").innerHTML = p.url
     ? `<a class="pill" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(U.visit || "Visit")} ${esc(host(p.url))}</a>`
     : `<p class="sheet__soon">${esc(p.linkLabel || "")}</p>`;
@@ -337,24 +420,34 @@ function openPanel(i, x, y) {
   panel.style.setProperty("--px", x + "px"); panel.style.setProperty("--py", y + "px");
   hidePreview();
   fillPanel(i);
+  markFront(i, false);
   panel.hidden = false;
   requestAnimationFrame(() => { panel.classList.add("is-open"); requestAnimationFrame(() => panel.classList.add("is-in")); });
   lenis && lenis.stop();
   pond && pond.pause(true);
   setTimeout(() => $("#panelClose").focus({ preventScroll: true }), 200);
 }
-// move to another project without closing: content drops out, colours cross-fade, content rises in
+// switch folders without closing: content drops out, the chosen folder
+// opens down from its tab over the current one, new content rises in
 let swapping = false;
-function stepPanel(dir) {
-  if (swapping || panel.hidden) return;
-  const n = window.DATA.projects.length, next = (current + dir + n) % n;
-  if (reduced) { fillPanel(next); return; }
+function goToProject(next, focusTab) {
+  if (swapping || panel.hidden || next === current) return;
+  if (reduced) { fillPanel(next); markFront(next, false); if (focusTab) $("#tab-" + next).focus(); return; }
   swapping = true;
+  panel.classList.add("is-swapping");
   panel.classList.remove("is-in");
+  markFront(next, true);
   setTimeout(() => {
     fillPanel(next);
+    $("#folderContent").scrollTop = 0;
+    panel.classList.remove("is-swapping");
     requestAnimationFrame(() => requestAnimationFrame(() => { panel.classList.add("is-in"); swapping = false; }));
-  }, 450);
+  }, 420);
+  if (focusTab) $("#tab-" + next).focus({ preventScroll: true });
+}
+function stepPanel(dir) {
+  const n = window.DATA.projects.length;
+  goToProject((current + dir + n) % n);
 }
 function closePanel() {
   panel.classList.remove("is-open", "is-in");
@@ -367,8 +460,10 @@ $("#sheetPrev").addEventListener("click", () => stepPanel(-1));
 $("#sheetNext").addEventListener("click", () => stepPanel(1));
 document.addEventListener("keydown", (e) => {
   if (panel.hidden) return;
-  if (e.key === "ArrowRight") stepPanel(1);
-  if (e.key === "ArrowLeft") stepPanel(-1);
+  const onTab = e.target.closest && e.target.closest(".folder__tab");
+  const n = window.DATA.projects.length;
+  if (e.key === "ArrowRight") goToProject((current + 1) % n, onTab);
+  if (e.key === "ArrowLeft") goToProject((current - 1 + n) % n, onTab);
 });
 // the frame tilts toward the cursor
 if (finePointer && !reduced) panel.addEventListener("pointermove", (e) => {

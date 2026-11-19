@@ -44,11 +44,14 @@ export function createPond(canvas, { reduced = false } = {}) {
   let mx = -9999, my = -9999, running = true, t = 0;
 
   function resize() {
-    W = innerWidth; H = innerHeight; DPR = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    // the mosaic is made of flat squares: render at 1x and let the browser
+    // upscale with crisp pixels (image-rendering: pixelated) on phones
+    DPR = W < 700 ? 1 : Math.min(devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     C = W < 700 ? 8 : 11;
-    const count = W < 700 ? 4 : 7;
+    const count = W < 700 ? 2 : 5;
     if (fish.length !== count) fish = Array.from({ length: count }, () => makeFish(W, H, C));
     if (reduced) draw();
   }
@@ -100,20 +103,20 @@ export function createPond(canvas, { reduced = false } = {}) {
       const ox = -diry / dl, oy = dirx / dl;                  // lateral normal
       const x0 = Math.floor((s.x - r) / C), x1 = Math.floor((s.x + r) / C);
       const y0 = Math.floor((s.y - r) / C), y1 = Math.floor((s.y + r) / C);
-      for (let gx = x0; gx <= x1; gx++) for (let gy = y0; gy <= y1; gy++) {
+      for (let gx = Math.max(0, x0); gx <= x1; gx++) for (let gy = Math.max(0, y0); gy <= y1; gy++) {
         const cx = gx * C + C / 2, cy = gy * C + C / 2;
         const dx = cx - s.x, dy = cy - s.y;
         const d2 = dx * dx + dy * dy;
         if (d2 > r * r) {
           // faint halo just outside the body
-          if (d2 < (r + C * 0.9) ** 2) { const key = gx + "," + gy; if (!cells.has(key)) cells.set(key, { c: f.v.base, a: 0.14 }); }
+          if (d2 < (r + C * 0.9) ** 2) { const key = gx * 8192 + gy; if (!cells.has(key)) cells.set(key, { c: f.v.base, a: 0.14 }); }
           continue;
         }
         const v = (dx * ox + dy * oy) / r;
         const edge = Math.sqrt(d2) / r;
         let col = f.v.base;
         for (const p of f.patches) if (((u - p.u) / p.ru) ** 2 + ((v - p.v) / p.rv) ** 2 < 1) { col = f.v.patch; break; }
-        cells.set(gx + "," + gy, { c: col, a: edge > 0.78 ? 0.72 : 1 });
+        cells.set(gx * 8192 + gy, { c: col, a: edge > 0.78 ? 0.72 : 1 });
       }
       // pectoral fins
       if (i === Math.round(n * 0.22)) {
@@ -121,8 +124,8 @@ export function createPond(canvas, { reduced = false } = {}) {
         for (const side of [-1, 1]) for (let k = 1; k <= 2; k++) {
           const fx = s.x + ox * side * (r + k * C * 0.8) - (dirx / dl) * k * C * 0.6 * flap;
           const fy = s.y + oy * side * (r + k * C * 0.8) - (diry / dl) * k * C * 0.6 * flap;
-          const key = Math.floor(fx / C) + "," + Math.floor(fy / C);
-          if (!cells.has(key)) cells.set(key, { c: f.v.base, a: 0.45 });
+          const key = Math.floor(fx / C) * 8192 + Math.floor(fy / C);
+          if (fx >= 0 && fy >= 0 && !cells.has(key)) cells.set(key, { c: f.v.base, a: 0.45 });
         }
       }
       // tail fin
@@ -131,8 +134,8 @@ export function createPond(canvas, { reduced = false } = {}) {
         for (const side of [-1, 1]) for (let k = 1; k <= 4; k++) {
           const ang = Math.atan2(-diry, -dirx) + side * (0.35 + k * 0.05) + sweep;
           const fx = s.x + Math.cos(ang) * k * C * 0.9, fy = s.y + Math.sin(ang) * k * C * 0.9;
-          const key = Math.floor(fx / C) + "," + Math.floor(fy / C);
-          if (!cells.has(key)) cells.set(key, { c: f.v.base, a: 0.5 - k * 0.07 });
+          const key = Math.floor(fx / C) * 8192 + Math.floor(fy / C);
+          if (fx >= 0 && fy >= 0 && !cells.has(key)) cells.set(key, { c: f.v.base, a: 0.5 - k * 0.07 });
         }
       }
     }
@@ -164,7 +167,7 @@ export function createPond(canvas, { reduced = false } = {}) {
       const cells = new Map();
       stampFish(f, cells);
       for (const [key, cell] of cells) {
-        const [gx, gy] = key.split(",").map(Number);
+        const gx = Math.floor(key / 8192), gy = key - gx * 8192;
         ctx.globalAlpha = cell.a;
         ctx.fillStyle = cell.c;
         ctx.fillRect(gx * C + pad, gy * C + pad, C - pad * 2, C - pad * 2);
@@ -173,11 +176,18 @@ export function createPond(canvas, { reduced = false } = {}) {
     }
   }
 
-  function frame() {
+  let last = 0;
+  function frame(now) {
     requestAnimationFrame(frame);
     if (!running || document.hidden) return;
-    t += 1 / 60;
-    for (const f of fish) { steer(f); move(f); }
+    const minDt = W < 700 ? 1000 / 30 - 2 : 0;
+    if (now - last < minDt) return;
+    const steps = last ? Math.min(3, Math.round((now - last) / (1000 / 60))) : 1;
+    last = now;
+    for (let k = 0; k < Math.max(1, steps); k++) {
+      t += 1 / 60;
+      for (const f of fish) { steer(f); move(f); }
+    }
     food = food.filter((p) => !p.eaten && (p.life -= 1) > 0);
     ripples = ripples.filter((r) => (r.k += 0.018) < 1);
     draw();

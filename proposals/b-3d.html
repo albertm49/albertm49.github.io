@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proposta B · Escena 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+<style>
+  :root {
+    --bg: #070A17; --bg-2: #0F1430; --line: #252C4F;
+    --text: #EAF0FF; --dim: #98A3C7; --ice: #8FB8FF; --glow: #6E7BFF;
+    --fd: "Unbounded", system-ui, sans-serif; --ft: "Manrope", system-ui, sans-serif;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 400 17px/1.55 var(--ft); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; } ul { list-style: none; }
+  :focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; border-radius: 6px; }
+
+  .hero { position: relative; height: 100svh; min-height: 640px; overflow: hidden;
+    background: radial-gradient(120% 80% at 70% 60%, #18204A 0%, var(--bg) 60%); }
+  #gl { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+  #gl:active { cursor: grabbing; }
+
+  .nav { position: absolute; inset: 0 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 22px clamp(16px, 4vw, 48px); z-index: 3; }
+  .brand { font: 800 16px var(--fd); text-decoration: none; letter-spacing: .02em; }
+  .nav ul { display: flex; gap: 26px; font-size: 15px; }
+  .nav ul a { text-decoration: none; color: var(--dim); transition: color .25s; } .nav ul a:hover { color: var(--text); }
+
+  .copy { position: absolute; left: clamp(16px, 4vw, 48px); top: 50%; transform: translateY(-50%); z-index: 2; max-width: min(560px, 46vw); pointer-events: none; }
+  .copy > * { pointer-events: auto; }
+  .kicker { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--dim); background: rgba(15,20,48,.6); backdrop-filter: blur(8px); margin-bottom: 26px; }
+  .kicker i { width: 8px; height: 8px; border-radius: 50%; background: #5BE49B; }
+  h1 { font: 800 clamp(40px, 5.6vw, 88px)/0.98 var(--fd); letter-spacing: -.03em; margin-bottom: 24px; }
+  h1 .line { display: block; overflow: hidden; }
+  h1 .line span { display: block; transform: translateY(105%); animation: up 1.1s var(--ease) forwards; }
+  h1 .line:nth-child(2) span { animation-delay: .12s; } h1 .line:nth-child(3) span { animation-delay: .24s; }
+  @keyframes up { to { transform: none; } }
+  .lead { font-size: clamp(17px, 1.4vw, 20px); color: var(--dim); max-width: 40ch; margin-bottom: 30px; opacity: 0; animation: fade 1s .6s forwards; }
+  @keyframes fade { to { opacity: 1; } }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: fade 1s .8s forwards; }
+  .btn { display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; border-radius: 999px; font-weight: 700; text-decoration: none; transition: transform .3s var(--ease), box-shadow .3s, background-color .3s; }
+  .btn--main { background: var(--text); color: var(--bg); }
+  .btn--main:hover { box-shadow: 0 0 0 6px rgba(143,184,255,.18); transform: translateY(-2px); }
+  .btn--ghost { border: 1px solid var(--line); background: rgba(15,20,48,.5); }
+  .btn--ghost:hover { background: var(--bg-2); }
+
+  .card-info { position: absolute; right: clamp(16px, 4vw, 48px); bottom: 32px; z-index: 2; width: min(340px, 80vw); padding: 18px 20px; border-radius: 18px; border: 1px solid var(--line); background: rgba(10,14,34,.72); backdrop-filter: blur(12px); transition: opacity .4s; }
+  .card-info small { color: var(--dim); font-size: 13px; }
+  .card-info h2 { font: 600 22px/1.15 var(--fd); margin: 4px 0 6px; }
+  .card-info p { font-size: 14px; color: var(--dim); }
+  .hint { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 2; font-size: 13px; color: var(--dim); display: flex; gap: 8px; align-items: center; }
+  .hint svg { width: 18px; height: 18px; }
+
+  section { padding: clamp(72px, 10vw, 140px) clamp(16px, 4vw, 48px); }
+  h2 { font: 800 clamp(32px, 4.4vw, 64px)/1 var(--fd); letter-spacing: -.03em; margin-bottom: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .pc { border: 1px solid var(--line); border-radius: 22px; padding: 22px; background: linear-gradient(180deg, var(--bg-2), var(--bg)); transition: transform .5s var(--ease), border-color .3s; text-decoration: none; display: block; }
+  .pc:hover { transform: translateY(-6px); border-color: var(--ice); }
+  .pc__logo { height: 120px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 18px; }
+  .pc__logo img { max-height: 70%; max-width: 70%; object-fit: contain; }
+  .pc h3 { font: 600 22px var(--fd); margin-bottom: 6px; } .pc p { color: var(--dim); font-size: 15px; }
+
+  .tag-proposal { position: fixed; bottom: 14px; left: 14px; background: var(--ice); color: var(--bg); padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 40; }
+
+  @media (max-width: 900px) {
+    .nav ul { display: none; }
+    .copy { top: auto; bottom: 90px; transform: none; max-width: none; right: 16px; }
+    .card-info, .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } h1 .line span { transform: none; } .lead, .cta { opacity: 1; } }
+</style>
+</head>
+<body>
+  <div class="hero">
+    <canvas id="gl" aria-label="3D carousel of projects. Drag to rotate."></canvas>
+    <header class="nav"><a class="brand" href="#">ALBERT MORA</a>
+      <ul><li><a href="#work">Work</a></li><li><a href="#contact">Contact</a></li><li><a href="../index.html#terminal">Terminal</a></li></ul></header>
+    <div class="copy">
+      <span class="kicker"><i></i>Open to junior full-stack roles</span>
+      <h1><span class="line"><span>Albert Mora.</span></span><span class="line"><span>Full-stack</span></span><span class="line"><span>developer.</span></span></h1>
+      <p class="lead" id="lead"></p>
+      <div class="cta"><a class="btn btn--main" href="#work">See my work</a><a class="btn btn--ghost" href="../assets/CvAlbertMoraEng.pdf" download>Download CV</a></div>
+    </div>
+    <aside class="card-info" id="info" aria-live="polite"><small>Project in front</small><h2 id="infoName"></h2><p id="infoDesc"></p></aside>
+    <p class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M5 9l-3 3 3 3M19 9l3 3-3 3"/></svg>Drag or scroll to spin</p>
+  </div>
+
+  <section id="work"><h2>Selected work</h2><div class="grid" id="grid"></div></section>
+  <section id="contact"><h2>Let's build something.</h2><a class="btn btn--main" href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a></section>
+  <span class="tag-proposal">Proposta B · Escena 3D</span>
+
+<script src="../i18n.js"></script>
+<script type="module">
+  import * as THREE from "three";
+  const D = window.DATA;
+  const COLORS = { aza: ["#FFD36B", "#2B2106"], softdev: ["#151B3A", "#EAF0FF"], owl: ["#FFE9DC", "#4A1E0B"], ekoora: ["#7FE3C4", "#0B241C"] };
+  document.getElementById("lead").textContent = D.about[0];
+  document.getElementById("grid").innerHTML = D.projects.map((p) =>
+    `<a class="pc" href="${p.url || "#work"}" ${p.url ? 'target="_blank" rel="noopener"' : ""}><div class="pc__logo" style="background:${COLORS[p.id][0]}"><img src="../${p.logo}" alt="${p.name} logo" loading="lazy"></div><h3>${p.name}</h3><p>${p.tagline}</p></a>`).join("");
+
+  const canvas = document.getElementById("gl");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x070a17, 10, 20);
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.set(0, 0.6, 9);
+
+  const load = (src) => new Promise((r) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
+  async function cardTexture(p) {
+    const c = document.createElement("canvas"); c.width = 640; c.height = 840;
+    const x = c.getContext("2d"); const [bg, fg] = COLORS[p.id];
+    x.fillStyle = bg; x.beginPath(); x.roundRect(0, 0, 640, 840, 48); x.fill();
+    const img = await load("../" + p.logo);
+    if (img) { const s = Math.min(420 / img.width, 300 / img.height); x.drawImage(img, 320 - img.width * s / 2, 300 - img.height * s / 2, img.width * s, img.height * s); }
+    await document.fonts.load('600 56px "Unbounded"');
+    x.fillStyle = fg; x.font = '600 56px "Unbounded"'; x.fillText(p.name, 48, 640);
+    x.globalAlpha = .7; x.font = '500 30px "Manrope"'; x.fillText(p.tagline, 48, 694);
+    x.font = '500 24px "Manrope"'; x.fillText(p.tags.slice(0, 4).join("  /  "), 48, 780);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+  }
+
+  const ring = new THREE.Group(); scene.add(ring);
+  const R = 2.6, cards = [];
+  for (let i = 0; i < D.projects.length; i++) {
+    const tex = await cardTexture(D.projects[i]);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.9, 1, 1), new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.FrontSide, depthWrite: false }));
+    const a = (i / D.projects.length) * Math.PI * 2;
+    m.position.set(Math.sin(a) * R, 0, Math.cos(a) * R); m.rotation.y = a; m.userData.a = a;
+    ring.add(m); cards.push(m);
+  }
+  // reflection floor + dust
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(7, 64), new THREE.MeshBasicMaterial({ color: 0x1a2250, transparent: true, opacity: .35 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -1.75; scene.add(floor);
+  const dust = new THREE.BufferGeometry(); const dp = new Float32Array(900 * 3);
+  for (let i = 0; i < dp.length; i++) dp[i] = (Math.random() - .5) * 18;
+  dust.setAttribute("position", new THREE.BufferAttribute(dp, 3));
+  const dustPts = new THREE.Points(dust, new THREE.PointsMaterial({ color: 0x8fb8ff, size: .025, transparent: true, opacity: .6 }));
+  scene.add(dustPts);
+
+  let rot = 0, target = 0, drag = null, mx = 0, my = 0, front = -1;
+  const step = (Math.PI * 2) / D.projects.length;
+  canvas.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, t: target }; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener("pointermove", (e) => { if (drag) target = drag.t + (e.clientX - drag.x) * 0.006; });
+  canvas.addEventListener("pointerup", () => { drag = null; target = Math.round(target / step) * step; });
+  addEventListener("pointermove", (e) => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+  let wheelT; canvas.addEventListener("wheel", (e) => { if (scrollY > 10) return; e.preventDefault(); target -= e.deltaY * 0.002; clearTimeout(wheelT); wheelT = setTimeout(() => target = Math.round(target / step) * step, 160); }, { passive: false });
+  // auto-advance until the visitor touches it
+  let auto = setInterval(() => (target -= step), 3600);
+  canvas.addEventListener("pointerdown", () => clearInterval(auto), { once: true });
+
+  function resize() {
+    const w = innerWidth, h = canvas.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h;
+    ring.position.x = w > 900 ? 2.0 : 0; ring.position.y = w > 900 ? -0.1 : 1.75; ring.scale.setScalar(w > 900 ? .9 : .5);
+    camera.updateProjectionMatrix();
+  }
+  addEventListener("resize", resize); resize();
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clock = new THREE.Clock();
+  (function loop() {
+    requestAnimationFrame(loop);
+    const t = clock.getElapsedTime();
+    rot += (target - rot) * (reduced ? 1 : .07);
+    ring.rotation.y = rot;
+    camera.position.x += (mx * 1.2 - camera.position.x) * .05; camera.position.y += (0.6 - my * .8 - camera.position.y) * .05; camera.lookAt(0, 0, 0);
+    const wp = new THREE.Vector3();
+    cards.forEach((c, i) => { c.position.y = Math.sin(t * .9 + i) * .08; c.getWorldPosition(wp); const k = Math.max(0, Math.min(1, (wp.z / R + 1) / 2)); c.material.opacity = 0.06 + Math.pow(k, 2.2) * 0.94; c.renderOrder = Math.round(k * 10); });
+    dustPts.rotation.y = t * .02;
+    // which card faces the camera?
+    const idx = ((Math.round(-rot / step) % cards.length) + cards.length) % cards.length;
+    if (idx !== front) { front = idx; const p = D.projects[idx]; document.getElementById("infoName").textContent = p.name; document.getElementById("infoDesc").textContent = p.desc; }
+    renderer.render(scene, camera);
+  })();
+</script>
+</body>
+</html>

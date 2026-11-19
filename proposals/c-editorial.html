@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proposta C · Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0C1310; --bg-2: #142019; --line: #26362D;
+    --text: #E6EDE4; --dim: #9DB0A3; --amber: #FFB547; --rose: #F2A7B5; --sky: #9CC9F5;
+    --fd: "Big Shoulders Display", Impact, sans-serif; --ft: "Figtree", system-ui, sans-serif;
+    --ease: cubic-bezier(.16,1,.3,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 400 17px/1.55 var(--ft); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; } ul { list-style: none; }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+  /* film grain */
+  body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z-index: 50; opacity: .06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1s steps(4) infinite; }
+  @keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-1%, 3%); } }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px clamp(16px, 4vw, 48px); position: relative; z-index: 3; }
+  .brand { font: 900 26px/1 var(--fd); letter-spacing: .01em; text-decoration: none; }
+  .nav ul { display: flex; gap: 28px; font-size: 15px; }
+  .nav ul a { text-decoration: none; position: relative; }
+  .nav ul a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1.5px; background: var(--amber); transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+  .nav ul a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .hero { position: relative; min-height: calc(100svh - 70px); display: grid; grid-template-columns: 1.25fr .75fr; grid-template-rows: 1fr auto; gap: 0 clamp(24px, 4vw, 64px); padding: 0 clamp(16px, 4vw, 48px) 28px; overflow: hidden; }
+  .head { align-self: center; position: relative; z-index: 2; }
+  h1 { font: 900 clamp(76px, 12.5vw, 220px)/.82 var(--fd); text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 28px; }
+  h1 .l { display: block; overflow: hidden; padding-bottom: .02em; }
+  h1 .l span { display: inline-block; transform: translateY(110%); animation: up 1.3s var(--ease) forwards; }
+  h1 .l:nth-child(2) span { animation-delay: .1s; color: var(--amber); }
+  @keyframes up { to { transform: none; } }
+  .intro { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: start; max-width: 640px; opacity: 0; animation: fade 1.2s .7s forwards; }
+  @keyframes fade { to { opacity: 1; } }
+  .intro p { font-size: clamp(18px, 1.5vw, 22px); line-height: 1.4; }
+  .intro p em { color: var(--dim); font-style: italic; }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid var(--amber); }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; grid-column: 2; }
+  .btn { display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; border-radius: 999px; font-weight: 700; text-decoration: none; position: relative; overflow: hidden; isolation: isolate; }
+  .btn--main { background: var(--amber); color: #2A1A00; }
+  .btn--main::before { content: ""; position: absolute; inset: 0; background: var(--text); z-index: -1; transform: translateY(101%); transition: transform .5s var(--ease); }
+  .btn--main:hover::before { transform: none; }
+  .btn--ghost { border: 1.5px solid var(--line); } .btn--ghost:hover { border-color: var(--text); }
+
+  .frame { position: relative; align-self: center; height: min(74vh, 680px); border-radius: 220px 220px 24px 24px; overflow: hidden; clip-path: inset(100% 0 0 0 round 220px 220px 24px 24px); animation: reveal 1.6s .2s var(--ease) forwards; }
+  @keyframes reveal { to { clip-path: inset(0 0 0 0 round 220px 220px 24px 24px); } }
+  .frame img { width: 100%; height: 115%; object-fit: cover; object-position: 50% 20%; transform: scale(1.15); animation: settle 2.2s .2s var(--ease) forwards; will-change: transform; }
+  @keyframes settle { to { transform: scale(1); } }
+  .badge { position: absolute; right: -14px; top: 18%; width: 132px; height: 132px; z-index: 3; animation: spin 18s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .badge text { font: 700 13px var(--ft); letter-spacing: .18em; fill: var(--text); }
+  .frame-wrap { position: relative; align-self: center; }
+
+  .strip { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 22px; border-top: 1px solid var(--line); flex-wrap: wrap; opacity: 0; animation: fade 1s 1.1s forwards; }
+  .strip ul { display: flex; gap: 8px; flex-wrap: wrap; }
+  .strip li a { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 999px; background: var(--bg-2); text-decoration: none; font-weight: 500; transition: background-color .3s, color .3s; }
+  .strip li a:hover { background: var(--text); color: var(--bg); }
+  .strip li img { width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: #fff; padding: 3px; }
+  .avail { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--dim); }
+  .avail i { width: 9px; height: 9px; border-radius: 50%; background: #6EE7A0; }
+
+  /* stacked chapters */
+  .chapters { padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px); }
+  .chapters > h2 { font: 900 clamp(56px, 9vw, 150px)/.85 var(--fd); text-transform: uppercase; margin-bottom: 48px; }
+  .ch { position: sticky; top: 24px; min-height: 78vh; border-radius: 28px; padding: clamp(24px, 4vw, 56px); margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; color: #10140F; transform-origin: 50% 0; }
+  .ch:nth-child(2) { top: 44px; } .ch:nth-child(3) { top: 64px; } .ch:nth-child(4) { top: 84px; }
+  .ch h3 { font: 900 clamp(56px, 8vw, 132px)/.85 var(--fd); text-transform: uppercase; margin-bottom: 18px; }
+  .ch p { font-size: clamp(17px, 1.3vw, 20px); max-width: 42ch; margin-bottom: 20px; }
+  .ch .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+  .ch .tags span { border: 1.5px solid currentColor; border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 500; }
+  .ch .logo { background: rgba(255,255,255,.55); border-radius: 22px; height: 100%; min-height: 280px; display: grid; place-items: center; }
+  .ch .logo img { max-width: 60%; max-height: 50%; object-fit: contain; transition: transform .8s var(--ease); }
+  .ch:hover .logo img { transform: scale(1.06) rotate(-2deg); }
+  .ch .go { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
+  .contact { padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px) 48px; }
+  .contact h2 { font: 900 clamp(64px, 13vw, 230px)/.82 var(--fd); text-transform: uppercase; margin-bottom: 32px; }
+  .contact a.mail { font-size: clamp(22px, 3vw, 40px); font-weight: 700; color: var(--amber); }
+
+  .tag-proposal { position: fixed; bottom: 14px; right: 14px; background: var(--amber); color: #2A1A00; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 60; }
+
+  @media (max-width: 900px) {
+    .nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+    .frame-wrap { order: -1; margin: 8px 0 24px; } .frame { height: 46vh; }
+    .badge { width: 104px; height: 104px; right: 0; top: auto; bottom: -20px; }
+    .ch { grid-template-columns: 1fr; } .ch .logo { min-height: 180px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, body::after { animation: none !important; } h1 .l span, .frame img { transform: none; } .frame { clip-path: none; } .intro, .strip { opacity: 1; } }
+</style>
+</head>
+<body>
+  <header class="nav"><a class="brand" href="#">Albert Mora</a>
+    <ul><li><a href="#work">Work</a></li><li><a href="#contact">Contact</a></li><li><a href="../index.html#terminal">Terminal</a></li></ul></header>
+
+  <main>
+    <section class="hero">
+      <div class="head">
+        <h1><span class="l"><span>Full-stack</span></span><span class="l"><span>developer</span></span></h1>
+        <div class="intro">
+          <img class="avatar" src="../assets/AlbertImage.jpg" alt="" />
+          <p>I'm Albert. I build web and mobile products for real clients, from the database to the last pixel. <em>Based between Barcelona and Arenys de Mar.</em></p>
+          <div class="cta"><a class="btn btn--main" href="#work">See my work</a><a class="btn btn--ghost" href="../assets/CvAlbertMoraEng.pdf" download>Download CV</a></div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <div class="frame"><img id="portrait" src="../assets/AlbertImage.jpg" alt="Albert Mora" /></div>
+        <svg class="badge" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="c" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><circle cx="60" cy="60" r="58" fill="#0C1310"/><text><textPath href="#c">open to work · open to work · </textPath></text><path d="M50 60h20M62 52l8 8-8 8" stroke="#FFB547" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div class="strip">
+        <ul id="strip"></ul>
+        <span class="avail"><i></i>Available for junior full-stack &amp; backend roles</span>
+      </div>
+    </section>
+
+    <section class="chapters" id="work">
+      <h2>Selected work</h2>
+      <div id="chs"></div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>Let's build<br />something.</h2>
+      <a class="mail" href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a>
+    </section>
+  </main>
+  <span class="tag-proposal">Proposta C · Editorial</span>
+
+<script src="../i18n.js"></script>
+<script>
+  const D = window.DATA;
+  const BG = { aza: "#FFB547", softdev: "#9CC9F5", owl: "#F2A7B5", ekoora: "#B7E4A5" };
+  document.getElementById("strip").innerHTML = D.projects.map((p) => `<li><a href="#p-${p.id}"><img src="../${p.logo}" alt="">${p.name}</a></li>`).join("");
+  const chs = document.getElementById("chs");
+  chs.innerHTML = D.projects.map((p) =>
+    `<article class="ch" id="p-${p.id}" style="background:${BG[p.id]}"><div><h3>${p.name}</h3><p>${p.desc}</p><div class="tags">${p.tags.map((t) => `<span>${t}</span>`).join("")}</div>${p.url ? `<a class="go" href="${p.url}" target="_blank" rel="noopener">Visit ${p.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}</a>` : `<em>${p.linkLabel}</em>`}</div><div class="logo"><img src="../${p.logo}" alt="${p.name} logo" loading="lazy"></div></article>`).join("");
+  chs.style.display = "block";
+
+  // scroll: portrait parallax, stacked cards shrink as the next one covers them
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const portrait = document.getElementById("portrait");
+  const cards = [...document.querySelectorAll(".ch")];
+  function onScroll() {
+    if (reduced) return;
+    const y = scrollY;
+    if (y < innerHeight * 1.2) portrait.style.translate = `0 ${y * -0.12}px`;
+    cards.forEach((c, i) => {
+      const next = cards[i + 1]; if (!next) return;
+      const d = next.getBoundingClientRect().top - c.getBoundingClientRect().top;
+      const k = Math.max(0, Math.min(1, 1 - d / c.offsetHeight));
+      c.style.transform = `scale(${1 - k * 0.06})`; c.style.filter = `brightness(${1 - k * 0.35})`;
+    });
+  }
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+</script>
+</body>
+</html>

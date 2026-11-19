@@ -48,6 +48,7 @@
       <li><a href="#about" data-i18n="navAbout">About</a></li>
       <li><a href="#work" data-i18n="navWork">Work</a></li>
       <li><a href="#experience" data-i18n="navExperience">Experience</a></li>
+      <li><a href="#education" data-i18n="eduTitle">Education</a></li>
       <li><a href="#stack" data-i18n="navStack">Toolbox</a></li>
       <li><a href="#contact" data-i18n="navContact">Contact</a></li>
     </ol>
@@ -109,10 +110,12 @@
         </div>
         <div id="expRows"></div>
       </div>
-      <div class="edu">
-        <h3 class="label" data-i18n="eduTitle">Education</h3>
-        <ul id="eduList"></ul>
-      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="studies" id="education" aria-labelledby="eduHeading">
+      <h2 class="big-title" id="eduHeading" data-i18n="eduTitle">Education</h2>
+      <ol class="studies__list" id="studyList"></ol>
     </section>
 
     <!-- TOOLBOX -->
@@ -144,15 +147,17 @@
 
   <!-- Project case study: full-screen, themed with each project's colours -->
   <div class="sheet" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelName" hidden>
-    <div class="sheet__bar">
-      <p class="sheet__count"><span id="sheetNo">01</span><span class="sheet__of">/</span><span id="sheetTotal">04</span></p>
-      <div class="sheet__nav">
-        <button class="pill sheet__btn" id="sheetPrev" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-t="prev">Previous</span></button>
-        <button class="pill sheet__btn" id="sheetNext" type="button"><span data-t="next">Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button class="pill sheet__close" id="panelClose" type="button" data-t="close">Close</button>
-      </div>
+    <!-- Filing cabinet: one folder per project; only the tabs of the folders behind show -->
+    <div class="cabinet" id="cabinet" role="tablist" aria-label="Projects"></div>
+    <div class="rail-nav">
+      <button class="pill rail-btn" id="sheetPrev" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only" data-t="prev">Previous</span></button>
+      <button class="pill rail-btn" id="sheetNext" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only" data-t="next">Next</span></button>
+      <button class="pill rail-close" id="panelClose" type="button"><svg class="rail-close__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="rail-close__text" data-t="close">Close</span></button>
     </div>
 
+    <!-- What is inside the front folder -->
+    <div class="folder-content" id="folderContent" role="tabpanel" data-lenis-prevent>
+   <div class="sheet__screen">
     <div class="sheet__stage" id="sheetStage">
       <figure class="mock" id="mock">
         <div class="mock__bar" aria-hidden="true"><i></i><i></i><i></i><span id="mockUrl"></span></div>
@@ -167,6 +172,16 @@
       <div class="sheet__about"><p class="sheet__label" data-t="aboutL">About</p><p id="panelDesc"></p></div>
       <div><p class="sheet__label" data-t="stackL">Stack</p><ul class="sheet__tags" id="panelTags"></ul></div>
       <div class="sheet__cta" id="panelLink"></div>
+    </div>
+   </div>
+
+    <!-- Deeper dive, only for projects with highlights -->
+    <section class="sheet__more" id="sheetMore" hidden>
+      <p class="sheet__scroll" aria-hidden="true" data-t="scrollMore">Scroll for more</p>
+      <div class="shots" id="sheetShots" hidden></div>
+      <h4 class="sheet__more-title" data-t="howTitle">How it works</h4>
+      <div class="sheet__features" id="sheetFeatures"></div>
+    </section>
     </div>
   </div>
 

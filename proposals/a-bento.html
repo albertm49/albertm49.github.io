@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proposta A · Bento viu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0E1116; --tile: #171B23; --tile-2: #1E2430; --line: #2A3140;
+    --text: #EEF0F4; --dim: #9AA3B2;
+    --lilac: #B9A7FF; --coral: #FF8B6B; --mint: #7FE3C4; --sun: #FFD36B;
+    --f: "Schibsted Grotesk", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 400 17px/1.5 var(--f); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; } ul { list-style: none; }
+  :focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; border-radius: 6px; }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px clamp(16px, 3vw, 32px); }
+  .brand { font-weight: 800; font-size: 19px; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--lilac); display: grid; place-items: center; color: var(--bg); font-style: normal; font-weight: 900; font-size: 14px; }
+  .nav ul { display: flex; gap: 6px; }
+  .nav ul a { text-decoration: none; padding: 8px 14px; border-radius: 999px; font-size: 15px; color: var(--dim); transition: background-color .25s, color .25s; }
+  .nav ul a:hover { background: var(--tile-2); color: var(--text); }
+
+  /* ---------- bento ---------- */
+  .bento {
+    display: grid; gap: 12px; padding: 4px clamp(16px, 3vw, 32px) 32px;
+    grid-template-columns: repeat(12, 1fr); grid-auto-rows: minmax(110px, auto);
+    min-height: calc(100svh - 70px);
+  }
+  .tile {
+    position: relative; overflow: hidden; border-radius: 22px; background: var(--tile);
+    padding: clamp(18px, 2vw, 28px); isolation: isolate;
+    opacity: 0; transform: translateY(18px) scale(.985);
+    animation: in .9s var(--ease) forwards; animation-delay: calc(var(--i) * 70ms + 100ms);
+  }
+  @keyframes in { to { opacity: 1; transform: none; } }
+  /* spotlight that follows the cursor */
+  .tile::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .4s;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.07), transparent 60%);
+  }
+  .tile:hover::before { opacity: 1; }
+
+  .t-hello { grid-column: span 7; grid-row: span 3; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; }
+  .t-hello h1 { font-size: clamp(44px, 6.4vw, 104px); line-height: .94; letter-spacing: -.035em; font-weight: 800; }
+  .t-hello h1 .wave { display: inline-block; transform-origin: 70% 80%; animation: wave 2.4s 1.2s ease-in-out 2; }
+  @keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(14deg); } 20%,40% { transform: rotate(-8deg); } }
+  .t-hello p { font-size: clamp(18px, 1.5vw, 22px); color: var(--dim); max-width: 34ch; }
+  .t-hello p b { color: var(--text); font-weight: 600; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; text-decoration: none; font-weight: 600; transition: transform .3s var(--ease), background-color .25s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn--main { background: var(--text); color: var(--bg); }
+  .btn--ghost { border: 1.5px solid var(--line); }
+  .btn--ghost:hover { background: var(--tile-2); }
+
+  .t-photo { grid-column: span 5; grid-row: span 3; padding: 0; background: #22262E; }
+  .t-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; filter: grayscale(1) contrast(1.05); transition: filter .8s var(--ease), transform 1.2s var(--ease); }
+  .t-photo:hover img { filter: none; transform: scale(1.04); }
+  .t-photo figcaption { position: absolute; left: 14px; bottom: 14px; background: rgba(14,17,22,.75); backdrop-filter: blur(8px); padding: 8px 12px; border-radius: 12px; font-size: 14px; }
+
+  .t-status { grid-column: span 3; grid-row: span 2; background: var(--mint); color: #0B241C; display: flex; flex-direction: column; justify-content: space-between; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: #0B7A55; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(11,122,85,0); } 100% { box-shadow: 0 0 0 0 rgba(11,122,85,0); } }
+  .t-status strong { font-size: clamp(22px, 2vw, 30px); line-height: 1.05; letter-spacing: -.02em; font-weight: 800; }
+  .t-status small { font-size: 14px; opacity: .8; }
+
+  .t-work { grid-column: span 6; grid-row: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; cursor: pointer; text-decoration: none; }
+  .t-work__media { border-radius: 16px; display: grid; place-items: center; padding: 18px; transition: background-color .6s var(--ease); }
+  .t-work__media img { max-height: 120px; width: auto; object-fit: contain; transition: transform .6s var(--ease), opacity .3s; }
+  .t-work:hover .t-work__media img { transform: scale(1.08) rotate(-2deg); }
+  .t-work__text { display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
+  .t-work__label { font-size: 14px; color: var(--dim); }
+  .t-work__name { font-size: clamp(26px, 2.6vw, 40px); font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+  .t-work__desc { font-size: 15px; color: var(--dim); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .bars { display: flex; gap: 6px; }
+  .bars span { flex: 1; height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .bars span i { display: block; height: 100%; width: 0; background: var(--text); }
+  .bars span.on i { animation: fill 4s linear forwards; }
+  .bars span.done i { width: 100%; }
+  @keyframes fill { to { width: 100%; } }
+  .swap { animation: swap .6s var(--ease); }
+  @keyframes swap { from { opacity: 0; transform: translateY(10px); } }
+
+  .t-term { grid-column: span 3; grid-row: span 2; background: #0A0C10; border: 1px solid var(--line); font: 13px/1.6 var(--mono); color: #C9D1D9; cursor: pointer; text-align: left; }
+  .t-term__bar { display: flex; gap: 6px; margin-bottom: 12px; }
+  .t-term__bar i { width: 10px; height: 10px; border-radius: 50%; background: #FF5F57; } .t-term__bar i:nth-child(2) { background: #FEBC2E; } .t-term__bar i:nth-child(3) { background: #28C840; }
+  .t-term .g { color: #3FB950; } .t-term .m { color: #8B949E; }
+  .caret { display: inline-block; width: 7px; height: 14px; background: #C9D1D9; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .t-term__open { position: absolute; right: 14px; bottom: 12px; font-family: var(--f); font-size: 13px; color: var(--dim); }
+
+  .t-clock { grid-column: span 3; grid-row: span 1; background: var(--lilac); color: #1D1640; display: flex; justify-content: space-between; align-items: center; }
+  .t-clock b { font-size: clamp(28px, 2.6vw, 40px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .t-clock span { font-size: 14px; text-align: right; }
+
+  .t-stack { grid-column: span 9; grid-row: span 1; padding: 0; display: flex; align-items: center; }
+  .marquee { display: flex; gap: 10px; width: max-content; animation: mq 40s linear infinite; padding: 0 10px; }
+  .t-stack:hover .marquee { animation-play-state: paused; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+  .chip { padding: 10px 18px; border-radius: 999px; background: var(--tile-2); white-space: nowrap; font-weight: 500; transition: background-color .25s, color .25s, transform .3s var(--ease); }
+  .chip:nth-child(4n+1):hover { background: var(--coral); color: #2B0F06; }
+  .chip:nth-child(4n+2):hover { background: var(--sun); color: #2B2106; }
+  .chip:nth-child(4n+3):hover { background: var(--mint); color: #0B241C; }
+  .chip:nth-child(4n):hover { background: var(--lilac); color: #1D1640; }
+  .chip:hover { transform: translateY(-3px) rotate(-2deg); }
+
+  /* ---------- below the fold ---------- */
+  section { padding: clamp(64px, 10vw, 128px) clamp(16px, 3vw, 32px); }
+  h2 { font-size: clamp(36px, 5vw, 72px); letter-spacing: -.03em; line-height: 1; font-weight: 800; margin-bottom: 36px; }
+  .rows li a { display: grid; grid-template-columns: 1.2fr 1.6fr auto; gap: 24px; align-items: center; padding: 26px 8px; border-top: 1px solid var(--line); text-decoration: none; transition: padding .5s var(--ease), background-color .3s; border-radius: 4px; }
+  .rows li:last-child a { border-bottom: 1px solid var(--line); }
+  .rows li a:hover { padding-left: 24px; background: var(--tile); }
+  .rows .n { font-size: clamp(28px, 3.4vw, 48px); font-weight: 800; letter-spacing: -.02em; }
+  .rows .d { color: var(--dim); }
+  .rows .tg { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .rows .tg span { font-size: 13px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; }
+  .peek { position: fixed; left: 0; top: 0; width: 260px; height: 180px; border-radius: 18px; pointer-events: none; z-index: 30; display: grid; place-items: center; opacity: 0; transform: translate(-50%, -50%) scale(.6) rotate(-6deg); transition: opacity .3s, transform .45s var(--ease); }
+  .peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
+  .peek img { max-width: 70%; max-height: 60%; object-fit: contain; }
+
+  .contact { text-align: left; }
+  .contact a.mail { font-size: clamp(28px, 5vw, 72px); font-weight: 800; letter-spacing: -.03em; text-decoration: none; background: linear-gradient(var(--coral), var(--coral)) 0 100% / 0 4px no-repeat; transition: background-size .6s var(--ease); }
+  .contact a.mail:hover { background-size: 100% 4px; }
+
+  .tag-proposal { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); background: var(--sun); color: #2B2106; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 40; }
+
+  @media (max-width: 1000px) {
+    .t-hello, .t-photo { grid-column: span 12; }
+    .t-photo { grid-row: span 3; min-height: 360px; }
+    .t-status, .t-clock, .t-term { grid-column: span 6; }
+    .t-work, .t-stack { grid-column: span 12; }
+    .nav ul { display: none; }
+    .rows li a { grid-template-columns: 1fr; gap: 8px; } .rows .tg { justify-content: flex-start; }
+  }
+  @media (max-width: 560px) { .t-status, .t-clock, .t-term { grid-column: span 12; } .t-work { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } .tile { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#"><i>A</i>Albert Mora</a>
+    <ul><li><a href="#work">Work</a></li><li><a href="#contact">Contact</a></li><li><a href="../index.html#terminal">Terminal</a></li></ul>
+  </header>
+
+  <main>
+    <div class="bento">
+      <div class="tile t-hello" style="--i:0">
+        <h1>Hi, I'm Albert <span class="wave">👋</span><br />I build web &amp; mobile products.</h1>
+        <div>
+          <p id="role"></p>
+          <div class="cta" style="margin-top:22px">
+            <a class="btn btn--main" href="#work">See my work</a>
+            <a class="btn btn--ghost" href="../assets/CvAlbertMoraEng.pdf" download>Download CV</a>
+          </div>
+        </div>
+      </div>
+      <figure class="tile t-photo" style="--i:1"><img src="../assets/AlbertImage.jpg" alt="Albert Mora" /><figcaption>Barcelona · Arenys de Mar</figcaption></figure>
+
+      <div class="tile t-status" style="--i:2"><span class="dot"></span><div><strong>Open to work</strong><br /><small>Junior full-stack and backend roles</small></div></div>
+
+      <a class="tile t-work" style="--i:3" id="feat" href="#work">
+        <div class="t-work__media" id="featMedia"><img id="featLogo" src="../assets/Logo.png" alt="AZA logo" /></div>
+        <div class="t-work__text">
+          <span class="t-work__label">Featured project</span>
+          <div id="featText"><div class="t-work__name" id="featName"></div><p class="t-work__desc" id="featDesc"></p></div>
+          <div class="bars" id="bars"></div>
+        </div>
+      </a>
+
+      <button class="tile t-term" style="--i:4" type="button" onclick="location.href='../index.html#terminal'">
+        <div class="t-term__bar"><i></i><i></i><i></i></div>
+        <div id="term"></div>
+        <span class="t-term__open">Open terminal</span>
+      </button>
+
+      <div class="tile t-clock" style="--i:5"><b id="clock">--:--</b><span>Local time<br />Barcelona</span></div>
+      <div class="tile t-stack" style="--i:6"><div class="marquee" id="mq"></div></div>
+    </div>
+
+    <section id="work">
+      <h2>Selected work</h2>
+      <ul class="rows" id="rows"></ul>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>Let's build something.</h2>
+      <a class="mail" href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a>
+    </section>
+  </main>
+  <div class="peek" id="peek"><img id="peekImg" src="../assets/Logo.png" alt="" /></div>
+  <span class="tag-proposal">Proposta A · Bento viu</span>
+
+<script src="../i18n.js"></script>
+<script>
+  const D = window.DATA;
+  const BG = { aza: "#FFD36B", softdev: "#1E2430", owl: "#FFE6D6", ekoora: "#7FE3C4" };
+  const fix = (p) => "../" + p;
+  document.getElementById("role").innerHTML = `<b>${D.role}</b>. ${D.about[1]}`;
+
+  // featured project carousel with progress bars
+  const bars = document.getElementById("bars");
+  bars.innerHTML = D.projects.map(() => "<span><i></i></span>").join("");
+  let k = 0;
+  function show(i) {
+    const p = D.projects[i];
+    document.getElementById("featMedia").style.background = BG[p.id] || "#1E2430";
+    const logo = document.getElementById("featLogo"); logo.src = fix(p.logo); logo.alt = p.name + " logo";
+    document.getElementById("featName").textContent = p.name;
+    document.getElementById("featDesc").textContent = p.desc;
+    const t = document.getElementById("featText"); t.classList.remove("swap"); void t.offsetWidth; t.classList.add("swap");
+    [...bars.children].forEach((b, j) => { b.className = j < i ? "done" : j === i ? "on" : ""; });
+  }
+  show(0);
+  setInterval(() => { k = (k + 1) % D.projects.length; show(k); }, 4000);
+
+  // tiny live terminal
+  const lines = [["whoami", D.name], ["cat role.txt", D.role], ["ls projects/", D.projects.map((p) => p.name).join("  ")]];
+  const term = document.getElementById("term");
+  (async function type() {
+    for (const [cmd, out] of lines) {
+      const l = document.createElement("div"); l.innerHTML = '<span class="g">$</span> '; term.appendChild(l);
+      for (const ch of cmd) { l.innerHTML += ch; await new Promise((r) => setTimeout(r, 70)); }
+      await new Promise((r) => setTimeout(r, 300));
+      const o = document.createElement("div"); o.className = "m"; o.textContent = out; term.appendChild(o);
+    }
+    const c = document.createElement("div"); c.innerHTML = '<span class="g">$</span> <span class="caret"></span>'; term.appendChild(c);
+  })();
+
+  // clock
+  const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" });
+  const tick = () => (document.getElementById("clock").textContent = fmt.format(new Date())); tick(); setInterval(tick, 10000);
+
+  // stack marquee
+  const items = Object.values(D.stack).flat();
+  document.getElementById("mq").innerHTML = [...items, ...items].map((s) => `<span class="chip">${s}</span>`).join("");
+
+  // spotlight
+  document.querySelectorAll(".tile").forEach((t) => t.addEventListener("pointermove", (e) => {
+    const r = t.getBoundingClientRect(); t.style.setProperty("--mx", e.clientX - r.left + "px"); t.style.setProperty("--my", e.clientY - r.top + "px");
+  }));
+
+  // work rows with a floating logo peek
+  document.getElementById("rows").innerHTML = D.projects.map((p) =>
+    `<li><a href="${p.url || "#work"}" ${p.url ? 'target="_blank" rel="noopener"' : ""} data-id="${p.id}"><span class="n">${p.name}</span><span class="d">${p.desc}</span><span class="tg">${p.tags.map((t) => `<span>${t}</span>`).join("")}</span></a></li>`).join("");
+  const peek = document.getElementById("peek"), peekImg = document.getElementById("peekImg");
+  let px = 0, py = 0, tx = 0, ty = 0;
+  document.querySelectorAll(".rows a").forEach((a) => {
+    a.addEventListener("pointerenter", () => { const p = D.projects.find((q) => q.id === a.dataset.id); peekImg.src = fix(p.logo); peek.style.background = BG[p.id]; peek.classList.add("on"); });
+    a.addEventListener("pointerleave", () => peek.classList.remove("on"));
+  });
+  addEventListener("pointermove", (e) => { tx = e.clientX + 150; ty = e.clientY; });
+  (function loop() { px += (tx - px) * .15; py += (ty - py) * .15; peek.style.left = px + "px"; peek.style.top = py + "px"; requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>

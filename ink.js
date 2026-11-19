@@ -102,13 +102,15 @@ export function createInk(canvas, { src, reduced = false, rect }) {
   // low-res mask canvas: soft white dabs that fade every frame
   const mask = document.createElement("canvas");
   const mctx = mask.getContext("2d");
-  const SCALE = 0.5;
+  const phone = () => innerWidth < 700;
+  let SCALE = 0.5;
   let W = 1, H = 1;
 
   function layout() {
     const r = canvas.getBoundingClientRect();
     W = Math.max(1, r.width); H = Math.max(1, r.height);
-    const pr = Math.min(devicePixelRatio || 1, 1.5);
+    const pr = phone() ? 1 : Math.min(devicePixelRatio || 1, 1.5);
+    SCALE = phone() ? 0.3 : 0.5;
     canvas.width = Math.round(W * pr); canvas.height = Math.round(H * pr);
     mask.width = Math.round(W * SCALE); mask.height = Math.round(H * SCALE);
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -147,9 +149,14 @@ export function createInk(canvas, { src, reduced = false, rect }) {
   layout();
   addEventListener("resize", () => layout());
 
+  // only draw while the hero is on screen, and at 30 fps on phones
+  let visible = true, lastFrame = 0;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(canvas);
   function frame(now) {
     requestAnimationFrame(frame);
-    if (!running) return;
+    if (!running || !visible || document.hidden) return;
+    if (phone() && now - lastFrame < 1000 / 30 - 2) return;
+    lastFrame = now;
     t = now / 1000;
     if (!reduced) {
       // dry the ink a little each frame
