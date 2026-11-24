@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Albert Mora Costillo · CV</title>
+<!-- One A4 page per language: open cv.html?lang=ca|es|en, or run build.mjs to export the three PDFs -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #FFFFFF; --ink: #151412; --soft: #3F3C37; --mute: #67635C; --line: #DEDBD3; --accent: #B04E1B;
+    --f: "Geist", Arial, Helvetica, sans-serif; --mono: "Geist Mono", ui-monospace, monospace;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #DAD7CF; }
+  body { font: 400 8.35pt/1.37 var(--f); color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* single column, read top to bottom: what ATS parsers expect */
+  .page { width: 210mm; height: 297mm; margin: 0 auto; background: var(--paper); padding: 10mm 14mm 7mm; display: flex; flex-direction: column; gap: 3.2mm; overflow: hidden; }
+  @media screen { .page { margin: 24px auto; box-shadow: 0 20px 60px -20px rgba(0,0,0,.35); } }
+  @media print { html, body { background: var(--paper); } }
+  a { color: inherit; text-decoration: none; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8mm; padding-bottom: 3mm; border-bottom: 1.5px solid var(--ink); }
+  header h1 { font: 650 23pt/1 var(--f); letter-spacing: -0.04em; margin: 0; }
+  header .role { font-size: 10.5pt; font-weight: 500; margin: 1.6mm 0 0; }
+  header .contact { margin: 2.4mm 0 0; color: var(--soft); font-size: 8.2pt; line-height: 1.55; }
+  header .contact span + span::before { content: "·"; margin: 0 1.6mm; color: var(--mute); }
+  .photo { width: 24mm; height: 24mm; border-radius: 50%; object-fit: cover; flex: none; }
+
+  h2 { font: 600 8pt/1 var(--f); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 2mm; padding-bottom: 1.3mm; border-bottom: 1px solid var(--line); }
+  .summary { margin: 0; color: var(--soft); line-height: 1.5; }
+
+  .item { margin-bottom: 2mm; break-inside: avoid; }
+  .item:last-child { margin-bottom: 0; }
+  .item .head { display: flex; justify-content: space-between; gap: 4mm; }
+  .item h3 { font-size: 9pt; font-weight: 600; margin: 0; }
+  .item h3 em { font-style: normal; font-weight: 400; color: var(--soft); }
+  .item time { font: 400 7.4pt/1.7 var(--mono); color: var(--mute); white-space: nowrap; }
+  .item p { margin: .4mm 0 0; color: var(--soft); }
+  .item ul { margin: .8mm 0 0; padding-left: 3.6mm; color: var(--soft); }
+  .item li { margin-bottom: .4mm; }
+  .item li::marker { color: var(--accent); }
+  .now { font: 500 6.6pt/1 var(--mono); color: var(--accent); margin-right: 2mm; }
+
+  .skills { margin: 0; padding: 0; list-style: none; display: grid; gap: .5mm; }
+  .skills b { font-weight: 600; }
+  .skills li { color: var(--soft); }
+  .skills li b { color: var(--ink); }
+  .tags { font: 400 7.2pt/1.4 var(--mono); color: var(--mute); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Albert Mora Costillo</h1>
+      <p class="role" data-k="role"></p>
+      <p class="contact">
+        <span data-k="based"></span><span><a href="mailto:albert.moracostillo@gmail.com">albert.moracostillo@gmail.com</a></span><span><a href="https://albertm49.github.io">albertm49.github.io</a></span><br />
+        <span><a href="https://linkedin.com/in/albert-mora-costillo-219301226">linkedin.com/in/albert-mora-costillo-219301226</a></span><span><a href="https://github.com/albertm49">github.com/albertm49</a></span>
+      </p>
+    </div>
+    <img class="photo" src="photo.jpg" alt="Albert Mora Costillo" />
+  </header>
+  <section><h2 data-k="summaryT"></h2><p class="summary" data-k="profile"></p></section>
+  <section><h2 data-k="experience"></h2><div id="jobs"></div></section>
+  <section><h2 data-k="education"></h2><div id="edu"></div></section>
+  <section><h2 data-k="projects"></h2><div id="proj"></div></section>
+  <section><h2 data-k="skills"></h2><ul class="skills" id="stack"></ul></section>
+</div>
+
+<script>
+const STACK = {
+  langs: "JavaScript, TypeScript, C#, Java, Dart, PHP, SQL, Bash",
+  front: "Angular, React, Next.js, Flutter, PWA, HTML5, CSS3",
+  back: ".NET, REST APIs, PostgreSQL, Supabase, Firebase, MySQL, MongoDB",
+  ai: "n8n, AI agents, Grok, Claude, OpenAI Codex, Gemini",
+  tools: "Git / GitHub, Docker, Postman, AWS (Cognito, S3), Odoo, Vite, Linux",
+};
+
+const L = {
+  en: {
+    summaryT: "Profile", based: "Barcelona / Arenys de Mar, Spain", skills: "Skills and languages", education: "Education",
+    experience: "Experience", projects: "Projects", now: "In progress", langsT: "Languages", langs: "Catalan and Spanish: native. English: B2, fluent conversation.",
+    role: "Full-stack developer",
+    profile: "I'm a full-stack developer finishing Computer Engineering at TecnoCampus. I've built websites, mobile apps and a cloud platform for real clients, and right now I automate company processes with n8n and AI agents. You can see everything I've built on my portfolio, albertm49.github.io.",
+    stackL: { langs: "Languages", front: "Frontend / Mobile", back: "Backend / Data", ai: "AI / Automation", tools: "Tools / Cloud" },
+    edu: [
+      { t: "Degree in Computer Engineering, Management and Information Systems", s: "TecnoCampus", d: "4th year", now: true },
+      { t: "Developer 10x with AI", s: "Instituto de Inteligencia Artificial", d: "Oct 2026 – Jan 2027", now: true },
+      { t: "Higher Technician in Multiplatform Application Development (DAM)", s: "Vocational training", d: "Completed" },
+    ],
+    jobs: [
+      { r: "AI Software Engineer (Intern)", c: "Sofa Events, Vilassar de Dalt", d: "Sep 2026 – Present", p: [
+        "Daily personal briefing for 11 people: when they clock in on Odoo, an n8n workflow with AI sends each of them a summary of their unread emails and of every project they're on, with where they left off.",
+        "PM Assistant: after each daily scrum, AI summarises the meeting and emails every person the summary plus the status of their projects.",
+        "Tablet PWA (React, TypeScript) with each person's projects by phase, offline mode and a chat with a Grok agent that suggests actions and only acts after the user confirms." ] },
+      { r: "Full-Stack Developer (Internship)", c: "SoftDevArts", d: "4 months", p: [
+        "Developed AZA, a family wellbeing web app (PWA) designed with a psychologist: a five-week programme with one character and one mission per week to help families reconnect at home.",
+        "Built the frontend (Angular, TypeScript) and a large part of the backend (.NET, C#, PostgreSQL), including the AWS connections (Cognito, S3), in a Scrum team. Live at aza.family." ] },
+      { r: "Junior Consultant", c: "Leviathan Creative Studios", d: "1 year", p: [
+        "Built OWL Emociones, a psychology app for OwlInstitute, with Flutter and Firebase.",
+        "Built two websites for other clients." ] },
+      { r: "Bash Developer (Internship)", c: "TwoNav", d: "6 months", p: [
+        "Wrote Bash scripts that automated deploying maps onto TwoNav's own devices." ] },
+    ],
+    proj: [
+      { n: "Portfolio", k: "albertm49.github.io", d: "My personal website, built from scratch without frameworks. All my projects are explained there one by one.", p: [
+        "My own animations with WebGL and Canvas: an ink stain that reveals my photo, a koi pond you can feed and a 3D sphere with my projects.",
+        "In Catalan, Spanish and English, with a terminal mode, fast on mobile and accessible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
+      { n: "SoftDevArts website", k: "softdevarts.com", d: "Website for the software consultancy SoftDevArts: services, projects and contact.", t: "Next.js, React, TypeScript" },
+      { n: "Tryvo", k: "Final degree project", d: "App for planning trips with friends: the group votes on the destination and activities, each day's route is ordered so you walk as little as possible, and expenses are split automatically.", t: "Flutter, Supabase, Gemini" },
+      { n: "Ekoora", k: "Learning app", d: "Game-based learning for students aged 11 to 15, with a teacher dashboard.", t: "Flutter, Supabase" },
+    ],
+  },
+  es: {
+    summaryT: "Perfil", based: "Barcelona / Arenys de Mar", skills: "Conocimientos e idiomas", education: "Formación",
+    experience: "Experiencia", projects: "Proyectos", now: "En curso", langsT: "Idiomas", langs: "Catalán y castellano: nativo. Inglés: B2, conversación fluida.",
+    role: "Desarrollador full-stack",
+    profile: "Soy desarrollador full-stack y estoy terminando Ingeniería Informática en TecnoCampus. He hecho webs, apps móviles y una plataforma en la nube para clientes reales, y ahora automatizo procesos de empresa con n8n y agentes de IA. Todo lo que he hecho está en mi portfolio, albertm49.github.io.",
+    stackL: { langs: "Lenguajes", front: "Frontend / Móvil", back: "Backend / Datos", ai: "IA / Automatización", tools: "Herramientas / Cloud" },
+    edu: [
+      { t: "Grado en Ingeniería Informática de Gestión y Sistemas de Información", s: "TecnoCampus", d: "4º curso", now: true },
+      { t: "Desarrollador 10x con IA", s: "Instituto de Inteligencia Artificial", d: "oct. 2026 – ene. 2027", now: true },
+      { t: "Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)", s: "Ciclo formativo de grado superior", d: "Completado" },
+    ],
+    jobs: [
+      { r: "AI Software Engineer (prácticas)", c: "Sofa Events, Vilassar de Dalt", d: "sept. 2026 – actualidad", p: [
+        "Briefing personal diario para 11 personas: al fichar en Odoo, un flujo de n8n con IA envía a cada una un resumen de sus correos sin leer y de cada proyecto en el que participa, con el punto en el que se quedó.",
+        "PM Assistant: tras cada daily scrum, la IA resume la reunión y envía a cada persona un correo con el resumen y el estado de sus proyectos.",
+        "PWA para tablets (React, TypeScript) con los proyectos de cada persona por fase, modo offline y un chat con un agente de Grok que propone acciones y solo actúa con confirmación del usuario." ] },
+      { r: "Desarrollador Full-Stack (prácticas)", c: "SoftDevArts", d: "4 meses", p: [
+        "Desarrollé AZA, una web app (PWA) de bienestar familiar diseñada con una psicóloga: un programa de cinco semanas con un personaje y una misión por semana para que las familias reconecten en casa.",
+        "Hice el frontend (Angular, TypeScript) y buena parte del backend (.NET, C#, PostgreSQL), incluidas las conexiones con AWS (Cognito, S3), en un equipo Scrum. En producción en aza.family." ] },
+      { r: "Consultor Junior", c: "Leviathan Creative Studios", d: "1 año", p: [
+        "Hice OWL Emociones, una app de psicología para OwlInstitute, con Flutter y Firebase.",
+        "Hice dos webs para otros clientes." ] },
+      { r: "Desarrollador Bash (prácticas)", c: "TwoNav", d: "6 meses", p: [
+        "Hacía scripts en Bash que automatizaban el despliegue de mapas en los dispositivos propios de TwoNav." ] },
+    ],
+    proj: [
+      { n: "Portfolio", k: "albertm49.github.io", d: "Mi web personal, hecha desde cero sin frameworks. Ahí están todos mis proyectos explicados uno a uno.", p: [
+        "Animaciones propias con WebGL y Canvas: una mancha de tinta que revela mi foto, un estanque de carpas al que puedes dar de comer y una esfera 3D con mis proyectos.",
+        "En catalán, castellano e inglés, con modo terminal, rápida en el móvil y accesible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
+      { n: "Web de SoftDevArts", k: "softdevarts.com", d: "Web de la consultora de software SoftDevArts: servicios, proyectos y contacto.", t: "Next.js, React, TypeScript" },
+      { n: "Tryvo", k: "Trabajo de Fin de Grado", d: "App para organizar viajes con amigos: el grupo vota el destino y las actividades, la ruta de cada día se ordena para caminar lo mínimo y los gastos se reparten solos.", t: "Flutter, Supabase, Gemini" },
+      { n: "Ekoora", k: "App educativa", d: "Aprender jugando, para alumnos de 11 a 15 años, con panel para profesores.", t: "Flutter, Supabase" },
+    ],
+  },
+  ca: {
+    summaryT: "Perfil", based: "Barcelona / Arenys de Mar", skills: "Coneixements i idiomes", education: "Formació",
+    experience: "Experiència", projects: "Projectes", now: "En curs", langsT: "Idiomes", langs: "Català i castellà: natiu. Anglès: B2, conversa fluida.",
+    role: "Desenvolupador full-stack",
+    profile: "Sóc desenvolupador full-stack i estic acabant Enginyeria Informàtica al TecnoCampus. He fet webs, apps mòbils i una plataforma al núvol per a clients reals, i ara automatitzo processos d'empresa amb n8n i agents d'IA. Tot el que he fet és al meu portfolio, albertm49.github.io.",
+    stackL: { langs: "Llenguatges", front: "Frontend / Mòbil", back: "Backend / Dades", ai: "IA / Automatització", tools: "Eines / Cloud" },
+    edu: [
+      { t: "Grau en Enginyeria Informàtica de Gestió i Sistemes d'Informació", s: "TecnoCampus", d: "4t curs", now: true },
+      { t: "Desenvolupador 10x amb IA", s: "Instituto de Inteligencia Artificial", d: "oct. 2026 – gen. 2027", now: true },
+      { t: "Tècnic Superior en Desenvolupament d'Aplicacions Multiplataforma (DAM)", s: "Cicle formatiu de grau superior", d: "Completat" },
+    ],
+    jobs: [
+      { r: "AI Software Engineer (pràctiques)", c: "Sofa Events, Vilassar de Dalt", d: "set. 2026 – actualitat", p: [
+        "Briefing personal diari per a 11 persones: quan fitxen a Odoo, un flux d'n8n amb IA envia a cadascuna un resum dels correus sense llegir i de cada projecte on participa, amb el punt on es va quedar.",
+        "PM Assistant: després de cada daily scrum, la IA resumeix la reunió i envia a cada persona un correu amb el resum i l'estat dels seus projectes.",
+        "PWA per a tauletes (React, TypeScript) amb els projectes de cada persona per fase, mode offline i un xat amb un agent de Grok que proposa accions i només actua amb confirmació de l'usuari." ] },
+      { r: "Desenvolupador Full-Stack (pràctiques)", c: "SoftDevArts", d: "4 mesos", p: [
+        "Vaig desenvolupar AZA, una web app (PWA) de benestar familiar dissenyada amb una psicòloga: un programa de cinc setmanes amb un personatge i una missió per setmana perquè les famílies reconnectin a casa.",
+        "Vaig fer el frontend (Angular, TypeScript) i bona part del backend (.NET, C#, PostgreSQL), incloses les connexions amb AWS (Cognito, S3), en un equip Scrum. En producció a aza.family." ] },
+      { r: "Consultor Júnior", c: "Leviathan Creative Studios", d: "1 any", p: [
+        "Vaig fer OWL Emocions, una app de psicologia per a OwlInstitute, amb Flutter i Firebase.",
+        "Vaig fer dues webs per a altres clients." ] },
+      { r: "Desenvolupador Bash (pràctiques)", c: "TwoNav", d: "6 mesos", p: [
+        "Feia scripts en Bash que automatitzaven el desplegament de mapes als dispositius propis de TwoNav." ] },
+    ],
+    proj: [
+      { n: "Portfolio", k: "albertm49.github.io", d: "La meva web personal, feta des de zero sense frameworks. Hi ha tots els meus projectes explicats un per un.", p: [
+        "Animacions pròpies amb WebGL i Canvas: una taca de tinta que revela la meva foto, un estany de carpes on pots donar menjar i una esfera 3D amb els meus projectes.",
+        "En català, castellà i anglès, amb mode terminal, ràpida al mòbil i accessible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
+      { n: "Web de SoftDevArts", k: "softdevarts.com", d: "Web de la consultora de software SoftDevArts: serveis, projectes i contacte.", t: "Next.js, React, TypeScript" },
+      { n: "Tryvo", k: "Treball de Fi de Grau", d: "App per organitzar viatges amb amics: el grup vota el destí i les activitats, la ruta de cada dia s'ordena per caminar el mínim i les despeses es reparteixen soles.", t: "Flutter, Supabase, Gemini" },
+      { n: "Ekoora", k: "App educativa", d: "Aprendre jugant, per a alumnes d'11 a 15 anys, amb panell per a professors.", t: "Flutter, Supabase" },
+    ],
+  },
+};
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const lang = (new URLSearchParams(location.search).get("lang") || "en").toLowerCase();
+const T = L[lang] || L.en;
+document.documentElement.lang = lang;
+document.querySelectorAll("[data-k]").forEach((el) => { el.textContent = T[el.dataset.k]; });
+const item = (title, sub, date, inner, badge = "") =>
+  `<article class="item"><div class="head"><h3>${title}${sub ? `<em>, ${esc(sub)}</em>` : ""}</h3><time>${badge}${esc(date)}</time></div>${inner}</article>`;
+document.getElementById("edu").innerHTML = T.edu.map((e) =>
+  item(esc(e.t), e.s, e.d, "", e.now ? `<span class="now">${esc(T.now)}</span>` : "")).join("");
+document.getElementById("jobs").innerHTML = T.jobs.map((j) =>
+  item(esc(j.r), j.c, j.d, `<ul>${j.p.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`)).join("");
+document.getElementById("stack").innerHTML = Object.keys(STACK).map((k) => `<li><b>${esc(T.stackL[k])}:</b> ${esc(STACK[k])}</li>`).join("") +
+  `<li><b>${esc(T.langsT)}:</b> ${esc(T.langs)}</li>`;
+document.getElementById("proj").innerHTML = T.proj.map((p) =>
+  item(esc(p.n), p.k, "", `<p>${esc(p.d)}${p.p ? "" : ` <span class="tags">${esc(p.t)}</span>`}</p>` +
+    (p.p ? `<ul>${p.p.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="tags">${esc(p.t)}</p>` : ""))).join("");
+</script>
+</body>
+</html>
