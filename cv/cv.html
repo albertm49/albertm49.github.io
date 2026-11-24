@@ -18,7 +18,7 @@
   html, body { margin: 0; background: #DAD7CF; }
   body { font: 400 8.35pt/1.37 var(--f); color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   /* single column, read top to bottom: what ATS parsers expect */
-  .page { width: 210mm; height: 297mm; margin: 0 auto; background: var(--paper); padding: 10mm 14mm 7mm; display: flex; flex-direction: column; gap: 3.2mm; overflow: hidden; }
+  .page { width: 210mm; height: 297mm; margin: 0 auto; background: var(--paper); padding: 10mm 14mm 6mm; display: flex; flex-direction: column; gap: 3mm; overflow: hidden; }
   @media screen { .page { margin: 24px auto; box-shadow: 0 20px 60px -20px rgba(0,0,0,.35); } }
   @media print { html, body { background: var(--paper); } }
   a { color: inherit; text-decoration: none; }
@@ -101,7 +101,7 @@ const L = {
       { r: "Full-Stack Developer (Internship)", c: "SoftDevArts", d: "4 months", p: [
         "Developed AZA, a family wellbeing web app (PWA) designed with a psychologist: a five-week programme with one character and one mission per week to help families reconnect at home.",
         "Built the frontend (Angular, TypeScript) and a large part of the backend (.NET, C#, PostgreSQL), including the AWS connections (Cognito, S3), in a Scrum team. Live at aza.family." ] },
-      { r: "Junior Consultant", c: "Leviathan Creative Studios", d: "1 year", p: [
+      { r: "Junior Consultant", c: "Leviathan Creative Studios (formerly Dragon Factory)", d: "1 year", p: [
         "Built OWL Emociones, a psychology app for OwlInstitute, with Flutter and Firebase.",
         "Built two websites for other clients." ] },
       { r: "Bash Developer (Internship)", c: "TwoNav", d: "6 months", p: [
@@ -112,8 +112,8 @@ const L = {
         "My own animations with WebGL and Canvas: an ink stain that reveals my photo, a koi pond you can feed and a 3D sphere with my projects.",
         "In Catalan, Spanish and English, with a terminal mode, fast on mobile and accessible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
       { n: "SoftDevArts website", k: "softdevarts.com", d: "Website for the software consultancy SoftDevArts: services, projects and contact.", t: "Next.js, React, TypeScript" },
-      { n: "Tryvo", k: "Final degree project", d: "App for planning trips with friends: the group votes on the destination and activities, each day's route is ordered so you walk as little as possible, and expenses are split automatically.", t: "Flutter, Supabase, Gemini" },
-      { n: "Ekoora", k: "Learning app", d: "Game-based learning for students aged 11 to 15, with a teacher dashboard.", t: "Flutter, Supabase" },
+      { n: "Tryvo", k: "Final degree project", d: "App for planning trips with friends: group voting, optimised daily routes and shared expenses.", t: "Flutter, Supabase" },
+      { n: "Ekoora (formerly Verbum Quest)", k: "Learning app, on hold", d: "Popular vote winner at the Wapps Awards 2022 with the Dragon Factory team. It began as a role-playing game to learn Catalan verb conjugation at Escola Pia Santa Anna Mataró and grew into a platform for students aged 11 to 15 with a teacher dashboard.", t: "Flutter, Supabase" },
     ],
   },
   es: {
@@ -135,7 +135,7 @@ const L = {
       { r: "Desarrollador Full-Stack (prácticas)", c: "SoftDevArts", d: "4 meses", p: [
         "Desarrollé AZA, una web app (PWA) de bienestar familiar diseñada con una psicóloga: un programa de cinco semanas con un personaje y una misión por semana para que las familias reconecten en casa.",
         "Hice el frontend (Angular, TypeScript) y buena parte del backend (.NET, C#, PostgreSQL), incluidas las conexiones con AWS (Cognito, S3), en un equipo Scrum. En producción en aza.family." ] },
-      { r: "Consultor Junior", c: "Leviathan Creative Studios", d: "1 año", p: [
+      { r: "Consultor Junior", c: "Leviathan Creative Studios (antes Dragon Factory)", d: "1 año", p: [
         "Hice OWL Emociones, una app de psicología para OwlInstitute, con Flutter y Firebase.",
         "Hice dos webs para otros clientes." ] },
       { r: "Desarrollador Bash (prácticas)", c: "TwoNav", d: "6 meses", p: [
@@ -146,8 +146,8 @@ const L = {
         "Animaciones propias con WebGL y Canvas: una mancha de tinta que revela mi foto, un estanque de carpas al que puedes dar de comer y una esfera 3D con mis proyectos.",
         "En catalán, castellano e inglés, con modo terminal, rápida en el móvil y accesible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
       { n: "Web de SoftDevArts", k: "softdevarts.com", d: "Web de la consultora de software SoftDevArts: servicios, proyectos y contacto.", t: "Next.js, React, TypeScript" },
-      { n: "Tryvo", k: "Trabajo de Fin de Grado", d: "App para organizar viajes con amigos: el grupo vota el destino y las actividades, la ruta de cada día se ordena para caminar lo mínimo y los gastos se reparten solos.", t: "Flutter, Supabase, Gemini" },
-      { n: "Ekoora", k: "App educativa", d: "Aprender jugando, para alumnos de 11 a 15 años, con panel para profesores.", t: "Flutter, Supabase" },
+      { n: "Tryvo", k: "Trabajo de Fin de Grado", d: "App para organizar viajes con amigos: votaciones en grupo, rutas optimizadas por día y gastos compartidos.", t: "Flutter, Supabase" },
+      { n: "Ekoora (antes Verbum Quest)", k: "App educativa, en pausa", d: "Ganador del voto popular en los Premios Wapps 2022 con el equipo Dragon Factory. Empezó como un juego de rol para aprender a conjugar verbos en catalán en la Escola Pia Santa Anna de Mataró y creció hasta ser una plataforma para alumnos de 11 a 15 años con panel para profesores.", t: "Flutter, Supabase" },
     ],
   },
   ca: {
@@ -169,7 +169,7 @@ const L = {
       { r: "Desenvolupador Full-Stack (pràctiques)", c: "SoftDevArts", d: "4 mesos", p: [
         "Vaig desenvolupar AZA, una web app (PWA) de benestar familiar dissenyada amb una psicòloga: un programa de cinc setmanes amb un personatge i una missió per setmana perquè les famílies reconnectin a casa.",
         "Vaig fer el frontend (Angular, TypeScript) i bona part del backend (.NET, C#, PostgreSQL), incloses les connexions amb AWS (Cognito, S3), en un equip Scrum. En producció a aza.family." ] },
-      { r: "Consultor Júnior", c: "Leviathan Creative Studios", d: "1 any", p: [
+      { r: "Consultor Júnior", c: "Leviathan Creative Studios (abans Dragon Factory)", d: "1 any", p: [
         "Vaig fer OWL Emocions, una app de psicologia per a OwlInstitute, amb Flutter i Firebase.",
         "Vaig fer dues webs per a altres clients." ] },
       { r: "Desenvolupador Bash (pràctiques)", c: "TwoNav", d: "6 mesos", p: [
@@ -180,8 +180,8 @@ const L = {
         "Animacions pròpies amb WebGL i Canvas: una taca de tinta que revela la meva foto, un estany de carpes on pots donar menjar i una esfera 3D amb els meus projectes.",
         "En català, castellà i anglès, amb mode terminal, ràpida al mòbil i accessible." ], t: "JavaScript, WebGL, Canvas, HTML, CSS" },
       { n: "Web de SoftDevArts", k: "softdevarts.com", d: "Web de la consultora de software SoftDevArts: serveis, projectes i contacte.", t: "Next.js, React, TypeScript" },
-      { n: "Tryvo", k: "Treball de Fi de Grau", d: "App per organitzar viatges amb amics: el grup vota el destí i les activitats, la ruta de cada dia s'ordena per caminar el mínim i les despeses es reparteixen soles.", t: "Flutter, Supabase, Gemini" },
-      { n: "Ekoora", k: "App educativa", d: "Aprendre jugant, per a alumnes d'11 a 15 anys, amb panell per a professors.", t: "Flutter, Supabase" },
+      { n: "Tryvo", k: "Treball de Fi de Grau", d: "App per organitzar viatges amb amics: votacions en grup, rutes optimitzades per dia i despeses compartides.", t: "Flutter, Supabase" },
+      { n: "Ekoora (abans Verbum Quest)", k: "App educativa, en pausa", d: "Guanyador del vot popular als Premis Wapps 2022 amb l'equip Dragon Factory. Va començar com un joc de rol per aprendre a conjugar verbs en català a l'Escola Pia Santa Anna de Mataró i ha crescut fins a ser una plataforma per a alumnes d'11 a 15 anys amb panell per a professors.", t: "Flutter, Supabase" },
     ],
   },
 };
